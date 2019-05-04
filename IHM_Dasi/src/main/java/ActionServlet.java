@@ -4,19 +4,17 @@
  * and open the template in the editor.
  */
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import action.Action;
+import action.SeConnecterAction;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import serialisation.SeConnecterSerialisation;
+import serialisation.Serialisation;
 
 /**
  *
@@ -40,15 +38,21 @@ public class ActionServlet extends HttpServlet {
            String todo=request.getParameter("todo");
             
            if("connecter".equals(todo)){
-               //créer l'action
-               //utiliser la sérailisation
-               response.setContentType("application/json;charset=UTF-8");
-               PrintWriter out=response.getWriter();
+               Action action=new SeConnecterAction();
+               Serialisation serialisation=new SeConnecterSerialisation();
+              
+               boolean actionStatus=action.executer(request);
+               System.out.println("action réussie: "+actionStatus);
+               if (actionStatus){
+                   serialisation.serialiser(request, response);
+                   System.out.println("serialisation en cours");
+               }else{
+                   response.sendError(400,"connexion échouée");
+               }
            }
+    }
             
            
-      
-    }
 
 
 // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
