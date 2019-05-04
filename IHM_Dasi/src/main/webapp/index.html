@@ -9,7 +9,7 @@
 
         <style>
             /* Feuille de Style CSS (dans la page) */
-            #message { margin: 25px; padding: 10px; border-radius: 10px; border: 2px solid violet; }
+            #message { margin: 25px; padding: 10px; border-radius: 10px; border: 2px solid black; }
             button.joli-bouton { padding: 3px 10px; border-radius: 5px; border-width: 3px; cursor: pointer; }
         </style>
     </head>
@@ -48,14 +48,18 @@
                     dataType: 'json'        // Type de retour attendu
 
                 }).done( function (response) {  // Appel OK => "response" contient le resultat JSON
-
-                    // ici votre code...
-                    // 
-                    // si connexion ok, aller sur la page suivante :
-                    window.location = "maPageSuivante.html";
-                    // si connexion pas ok afficher un texte dans la div #message :
-                    $('#message').html('Echec de la connexion');
-
+                     var utilisateur=response.utilisateur;
+                     $('#message').html(utilisateur);
+                     
+                     if (utilisateur=="client"){
+                         //si connexion ok, aller sur la page suivante :
+                        window.location = "menu.html";
+                     }else if (utilisateur=="employe"){
+                        window.location = "menuEmploye.html";
+                     }else{
+                        //si connexion pas ok afficher un texte dans la div #message :
+                        $('#message').html('Echec de la connexion'); 
+                    }
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
                     // Popup avec message d'erreur :
