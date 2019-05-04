@@ -1,0 +1,6 @@
+//erreur\\
+exception qui fait sortir du programme !! 
+si ce qu'on cherche n'est pas un client :
+  dans findClientParMail(mail) le return est query.getSingleResult(), ce qui provoque une exception
+   -> sortie du programme ! 
+   -> impossible de tester si le client est null du coup et si c'est un employé puisque le programme est arrêté
