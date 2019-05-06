@@ -30,21 +30,24 @@ public class SeConnecterAction extends Action{
            System.out.println("action en cours d'execution");
            
            Service service= new Service();
+           try{
            Client c=service.connecterClient(login,password);
-           if( c!= null){
-            System.out.println("Client !!!!!");
+           System.out.println("Client : "+c.getNom());
             session.setAttribute("utilisateur",c);
             request.setAttribute("utilisateur", "client");
-           }else {
-             Employe e=service.connecterEmploye(login,password);
-             if( e!= null){
+            
+           }catch( Exception ex){
+               try{
+                Employe e=service.connecterEmploye(login,password);
                 System.out.println("Employe !!!!!");
                 session.setAttribute("utilisateur",e);
                 request.setAttribute("utilisateur", "employe");
-             }else{
+                
+                }catch(Exception ex2){
                  execute=false;
-             } 
+                } 
            }
+           
            return execute;
     }
 }

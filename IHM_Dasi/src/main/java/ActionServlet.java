@@ -5,6 +5,8 @@
  */
 
 import action.Action;
+import action.AfficherInfoClientAction;
+import action.SInscrireAction;
 import action.SeConnecterAction;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +15,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import serialisation.AfficherInfoClientSerialisation;
+import serialisation.SInscrireSerialisation;
 import serialisation.SeConnecterSerialisation;
 import serialisation.Serialisation;
 
@@ -36,20 +40,60 @@ public class ActionServlet extends HttpServlet {
             throws ServletException, IOException {
            response.setCharacterEncoding("UTF-8");
            String todo=request.getParameter("todo");
-            
-           if("connecter".equals(todo)){
-               Action action=new SeConnecterAction();
-               Serialisation serialisation=new SeConnecterSerialisation();
-              
-               boolean actionStatus=action.executer(request);
-               System.out.println("action réussie: "+actionStatus);
-               if (actionStatus){
-                   serialisation.serialiser(request, response);
-                   System.out.println("serialisation en cours");
-               }else{
-                   response.sendError(400,"connexion échouée");
-               }
+           
+           switch (todo){
+                   case "connecter":
+                   {
+                    Action action=new SeConnecterAction();
+                    Serialisation serialisation=new SeConnecterSerialisation();
+
+                    boolean actionStatus=action.executer(request);
+                    System.out.println("action réussie: "+actionStatus);
+                    if (actionStatus){
+                        serialisation.serialiser(request, response);
+                        System.out.println("serialisation en cours");
+                    }else{
+                        response.sendError(400,"connexion échouée");
+                    }
+                    break;
+                   }
+                    
+                   case "inscrire":
+                      {
+                       Action action=new SInscrireAction();
+                        Serialisation serialisation=new SInscrireSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(401,"inscription échouée");
+                        }
+                        break;
+                      }
+                    
+                   case "afficher_info_client":
+                       {
+                        System.out.println("afficher info ...");
+                        Action action=new AfficherInfoClientAction();
+                        Serialisation serialisation=new AfficherInfoClientSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(402,"erreur survenue");
+                        }
+                        break;
+                      }
+                       
            }
+
+     
     }
             
            

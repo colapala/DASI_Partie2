@@ -6,11 +6,103 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+         <title>Exemple de page de login</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Librairie Javascript: jQuery (v3.3.1) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
     </head>
     <body>
-        <div>Menu du client</div>
-    </body>
+        <div>
+            <b>Vos informations</b>
+            
+            <div><b>Astrologique</b>
+                <ul id="astro-client">   
+                    <li> Signe du Zodiaque: </li>
+                    <li> Signe Chinois: </li>
+                    <li> Couleur porte-bonneur: </li>
+                    <li> Animal-totem:</li>
+                </ul> 
+            </div> 
+            
+            <div><b>Personnelle</b>
+                 <ul id="info-client"> 
+                    <li> Date de naissance: </li>
+                    <li>Numéro de téléphone: </li>
+                    <li> Adresse: </li>
+                    <li> email:</li>
+                </ul>
+            </div> 
+        </div>
+    
+   
+        <script>
+            function AfficherInfo() {
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_info_client'
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                $('#astro-client').empty();
+                $('#info-client').empty();
+
+                var listeHTML1=$('#astro-client');
+                  listeHTML1.append("<li> Signe du Zodiac : "+response.signeZodiac+ "</li> <li> Signe chinois : "+response.signeChinois+ "</li> <li> Couleur :  " +response.couleur+" </li> <li> Animal : "+response.animal+" </li>");
+                 var listeHTML2=$('#info-client');
+                   listeHTML2.append( " <li> Date de naissance : "+response.dateNaissance+"</li> <li> Téléphone : "+response.tel+"</li> <li> Adresse postale :"+response.adresse+"</li> <li> Adressee mail :"+response.mail+" </li>");
+
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "index.html";
+                });
+            }
+            
+            function AfficherHistorique() {
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_historique'
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                $('#historique').empty();
+
+                var listeHTML1=$('#historique');
+                  listeHTML1.append("<li>  </li>");
+                
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "index.html";
+                });
+            }
+            
+            $(document).ready(function(){
+                 console.log('Page chargee => Debut du Script'); 
+                 AfficherInfo();
+                 AfficherHistorique();
+               
+        });
+
+
+
+            </script>
+        
+        </body>
 </html>

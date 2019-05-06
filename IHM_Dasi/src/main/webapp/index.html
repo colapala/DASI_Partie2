@@ -25,6 +25,23 @@
 
         <div id="message">...</div>
         
+        <div>
+            Nom : <input type="text" id="champ-nom" name="nom" placeholder="Nom" /><br>
+            Prénom : <input type="text" id="champ-prenom" name="prenom" placeholder="Prénom" /><br>
+            Civilité :
+            <SELECT name="nom" id="champ-civilite" size="1">
+                <OPTION>madame
+                <OPTION>monsieur
+            </SELECT><br>
+            Date de naissance : <input type="text" id="champ-date" name="date" placeholder="jj/mm/aaaa" /><br>
+            Téléphone : <input type="text" id="champ-tel" name="tel" placeholder="xx-xx-xx-xx-xx" /><br>
+            Adresse postale : <input type="text" id="champ-adresse" name="adresse" placeholder="adresse" /><br>
+            Adresse mail : <input type="text" id="champ-mail" name="mail" placeholder="mail" /><br>
+            Mot de passe : <input type="password" id="champ-password2" name="password" /><br>
+            Confirmation : <input type="password" id="champ-confirm" name="confirm" /><br>
+            <button id="bouton-inscription" class="joli-bouton">S'inscrire</button>   
+        </div>
+        
         <script>
 
             function connexion() {
@@ -63,10 +80,65 @@
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
                     // Popup avec message d'erreur :
-                    alert('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    alert('connexion échouée');
                     // Message d'erreur dans la div #message :
                     $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "index.html";
+                });
+            }
+            
+             function inscription() {
 
+                var nom = $('#champ-nom').val();
+                var prenom = $('#champ-prenom').val();
+                var civilite = $('#champ-civilite').val();
+                var date = $('#champ-date').val();
+                var tel = $('#champ-tel').val();
+                var adresse = $('#champ-adresse').val();
+                var mail = $('#champ-mail').val();
+                var password = $('#champ-password2').val();
+                var confirm = $('#champ-confirm').val();
+
+                // Message d'information dans la div #message :
+                $('#message').html('inscription en cours...');
+
+                // Requête AJAX
+                $.ajax({
+
+                    url: './ActionServlet', // URL
+                    method: 'POST',         // Méthode
+                    data: {                 // Paramètres
+                        todo: 'inscrire',
+                        nom: nom,
+                        prenom: prenom,
+                        civilite: civilite,
+                        date: date,
+                        tel: tel,
+                        adresse:adresse,
+                        mail: mail,
+                        password: password,
+                        confirm: confirm  
+                    },
+                    dataType: 'json'        // Type de retour attendu
+
+                }).done( function (response) {  // Appel OK => "response" contient le resultat JSON
+                     var reussie=response.reussie;
+                     $('#message').html(reussie);
+                     
+                     if (reussie==true){
+                         //si connexion ok, aller sur la page suivante :
+                        window.location = "menu.html";
+                     }else{
+                        //si connexion pas ok afficher un texte dans la div #message :
+                        $('#message').html('Echec de l\'inscription'); 
+                    }
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('inscription échouée');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "index.html";
                 });
             }
 
@@ -82,6 +154,15 @@
 
                     // appel de la fonction connexion
                     connexion();
+
+                });
+                 $('#bouton-inscription').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "S\'inscrire"');
+
+                    // appel de la fonction connexion
+                    inscription();
 
                 });
 
