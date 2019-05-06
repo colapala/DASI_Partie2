@@ -14,6 +14,11 @@ and open the template in the editor.
 
     </head>
     <body>
+        
+        <div id="utilisateur">
+            Bonjour,
+        </div>
+        <br>
         <div>
             <b>Vos informations</b>
             
@@ -35,6 +40,12 @@ and open the template in the editor.
                 </ul>
             </div> 
         </div>
+        
+        <div> <b> Historique</b>
+            <ul id="historique">
+                <Li>rien à afficher</Li>
+            </ul>
+        </div>
     
    
         <script>
@@ -49,9 +60,12 @@ and open the template in the editor.
                   
                 }).done(function(response){ 
                 // console.log(data); // Afficher dans la console JavaScript
+                 $('#utilisateur').empty();
                 $('#astro-client').empty();
                 $('#info-client').empty();
-
+                
+                var infoUser=$('#utilisateur');
+                    infoUser.append("Bonjour "+response.prenom+" "+response.nom+" ,");
                 var listeHTML1=$('#astro-client');
                   listeHTML1.append("<li> Signe du Zodiac : "+response.signeZodiac+ "</li> <li> Signe chinois : "+response.signeChinois+ "</li> <li> Couleur :  " +response.couleur+" </li> <li> Animal : "+response.animal+" </li>");
                  var listeHTML2=$('#info-client');
@@ -79,9 +93,18 @@ and open the template in the editor.
                 }).done(function(response){ 
                 // console.log(data); // Afficher dans la console JavaScript
                 $('#historique').empty();
-
-                var listeHTML1=$('#historique');
-                  listeHTML1.append("<li>  </li>");
+                
+                 var voyance=response.listeVoyance;
+                 var listeHTML=$('#historique');
+                 
+                 if (voyance.length>0){
+                    listeHTML.append("<li>date           medium         status</li>");
+                    for(var i= 0;i<voyance.length;i++){
+                      listeHTML.append("<li>"+voyance[i].date+"||    ||"+voyance[i].medium+"||      ||"+voyance[i].status+"</li>");
+                    }
+                }else{
+                    listeHTML.append("pas de voyance");
+                }
                 
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
