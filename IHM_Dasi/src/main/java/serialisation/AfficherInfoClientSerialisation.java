@@ -24,6 +24,8 @@ public class AfficherInfoClientSerialisation extends Serialisation {
       public void serialiser(HttpServletRequest request, HttpServletResponse response)throws IOException{
         JsonObject container=new JsonObject();
         
+        String nom= (String)request.getAttribute("nom");
+        String prenom= (String)request.getAttribute("prenom");
         String signeZodiac= (String)request.getAttribute("signeZodiac");
         String signeChinois=(String)request.getAttribute("signeChinois");
         String couleur= (String)request.getAttribute("couleur");
@@ -33,10 +35,10 @@ public class AfficherInfoClientSerialisation extends Serialisation {
         String adresse= (String)request.getAttribute("adresse");
         String tel= (String)request.getAttribute("tel");
         
+        container.addProperty("nom",nom);
+        container.addProperty("prenom",prenom);
         container.addProperty("signeZodiac",signeZodiac);
-                
         container.addProperty("signeChinois",signeChinois);
-        System.out.println("cc");
         container.addProperty("couleur",couleur);
         container.addProperty("animal",animal);
         container.addProperty("dateNaissance","30031999");

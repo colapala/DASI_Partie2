@@ -5,6 +5,7 @@
  */
 
 import action.Action;
+import action.AfficherHistoClientAction;
 import action.AfficherInfoClientAction;
 import action.SInscrireAction;
 import action.SeConnecterAction;
@@ -15,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import serialisation.AfficherHistoClientSerialisation;
 import serialisation.AfficherInfoClientSerialisation;
 import serialisation.SInscrireSerialisation;
 import serialisation.SeConnecterSerialisation;
@@ -91,6 +93,22 @@ public class ActionServlet extends HttpServlet {
                         break;
                       }
                        
+                       case "afficher_historique":
+                       {
+                        System.out.println("afficher historique ...");
+                        Action action=new AfficherHistoClientAction();
+                        Serialisation serialisation=new AfficherHistoClientSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(403,"erreur survenue");
+                        }
+                        break;
+                      }
            }
 
      
