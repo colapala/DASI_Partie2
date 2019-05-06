@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Liste des Personnes</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    </head>
+    <body>
+        <h1>Liste des Personnes</h1>
+        
+        <ul id="liste-personnes"> 
+          <li> M. Corentin LAHAROTTE </li>
+          <li> M. Jorge TERREU </li>
+          <li> Mme Chanèle JOURDAN </li>
+        </ul>
+        <a href="index.html">Retour à l'Accueil</a>
+        
+        <script>
+            function ajouter(personne){// fonction à compléter 
+                //console.log(personne);
+                var listeHTML=$('#liste-personnes');
+                listeHTML.append("<li> "+personne.civilite+" "+personne.prenom+" "+personne.nom+"( "+personne.mail+ " ) </li>");
+            } 
+        
+             $(document).ready(function(){
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'consulter_liste_personnes'
+                    },
+                  dataType:'json'
+                }).done(function(data){
+                // console.log(data); // Afficher dans la console JavaScript
+                $('#liste-personnes').empty();
+                var personnes=data.Personnes;
+                for(var i= 0;i<personnes.length;i++){
+                  ajouter(personnes[i]);
+                }
+             });
+        });
+        </script>
+        
+    </body>
+</html>
