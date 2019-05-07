@@ -22,10 +22,37 @@ public class AfficherMediumDispoAction extends Action {
     public boolean executer(HttpServletRequest request){
            boolean execute=true; 
            System.out.println("action en cours");
+           String type=request.getParameter("type");
+           
            try{
            Service service=new Service();
-           List<Medium> listeMedium=service.getTousMediums();
-           request.setAttribute("listeMedium",listeMedium);
+           
+           switch (type){
+               case "Tous":
+               {
+                    List<Medium> listeMedium=service.getTousMediums();
+                    request.setAttribute("listeMedium",listeMedium);
+                    break;
+               }
+               case "Voyant":
+               {
+                    List<Medium> listeMedium=service.getTousVoyants();
+                    request.setAttribute("listeMedium",listeMedium);
+                    break;
+               }
+               case "Astrologue":
+               {
+                    List<Medium> listeMedium=service.getTousAstrologues();
+                    request.setAttribute("listeMedium",listeMedium);
+                    break;
+               }
+               case "Tarologue":
+               {
+                    List<Medium> listeMedium=service.getTousTarologues();
+                    request.setAttribute("listeMedium",listeMedium);
+                    break;
+               }
+           }
            
            }catch (Exception e){
                execute=false;

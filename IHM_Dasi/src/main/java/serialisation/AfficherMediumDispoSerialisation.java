@@ -9,8 +9,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import fr.insalyon.dasi.td.jpa.modele.Astrologue;
 import fr.insalyon.dasi.td.jpa.modele.Medium;
+import fr.insalyon.dasi.td.jpa.modele.Tarologue;
 import fr.insalyon.dasi.td.jpa.modele.Voyance;
+import fr.insalyon.dasi.td.jpa.modele.Voyant;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -34,7 +37,20 @@ public class AfficherMediumDispoSerialisation extends Serialisation {
         for (Medium m :listeMedium) {
             JsonObject jsonVoyance=new JsonObject();
             jsonVoyance.addProperty("nom",m.getNom());
-            jsonVoyance.addProperty("talent","?");
+            jsonVoyance.addProperty("descriptif",m.getDescriptif());
+            
+            if(m instanceof Astrologue){
+                Astrologue astrologue=(Astrologue)m;
+                jsonVoyance.addProperty("talent","Astrologue");
+                jsonVoyance.addProperty("formation",astrologue.getFormation());
+                jsonVoyance.addProperty("promotion",astrologue.getPromotion());
+            }else if(m instanceof Tarologue){
+                jsonVoyance.addProperty("talent","Tarologue");
+            }else{
+                jsonVoyance.addProperty("talent","Voyant");
+                Voyant voyant=(Voyant)m;
+                jsonVoyance.addProperty("specialite",voyant.getSpecialite());
+            }
             jsonListe.add(jsonVoyance);
         }
         container.add("listeMedium",jsonListe);
