@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+         <title>voyance</title>
+        <meta charset="UTF-8">
+
+        <!-- Librairie Javascript: jQuery (v3.3.1) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    </head>
+    <body>
+        <div><b>Mediums Disponibles</b>
+            <br><SELECT id="champ-type" size="1">
+                <OPTION>Tous
+                <OPTION>Voyant
+                <OPTION>Tarologue
+                <OPTION>Astrologue
+            </SELECT><br>
+            
+            <ul id="medium-dispo"> 
+                    <li> pas de médiums disponibles </li>
+            </ul>
+        </div>
+        
+        <div><b>Informations sur le médium</b>
+            <ul id="info-medium"> 
+                    <li> Nom : </li>
+                    <li> Talent : </li>
+                    <li> Descriptif : </li>
+                    <li> Formation: </li>
+                    <li> Promotion : </li>
+            </ul>
+        </div>
+        
+         <br> <button id="bouton-retour" class="joli-bouton">Retour</button> 
+          <br> <button id="bouton-contacter-medium" class="joli-bouton">Contacter medium</button> 
+        
+        
+        <script>
+            function AfficherMediumDispo() {
+                
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_mediums_disponibles'
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                 $('#medium-dispo').empty();
+                 
+                 var mediums=response.listeMedium;
+                 var listeHTML=$('#medium-dispo');
+                 
+                 if (mediums.length>0){
+                    listeHTML.append("<li>médium         talent</li>");
+                    for(var i= 0;i<mediums.length;i++){
+                      listeHTML.append("<li>"+mediums[i].nom+"||    ||"+mediums[i].talent+"</li>");
+                    }
+                }
+                
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "menu.html";
+                });
+            }
+            
+            $(document).ready(function(){
+                 console.log('Page chargee => Debut du Script'); 
+                 AfficherMediumDispo();
+                 
+                  $('#bouton-retour').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Demander Voyance"');
+
+                     window.location = "menu.html";
+
+                });
+                
+                $('#bouton-contacter-medium').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Demander Voyance"');
+
+                     window.location = "contacterMedium.html";
+
+                });
+               
+        });
+
+
+
+            </script>
+    </body>
+</html>

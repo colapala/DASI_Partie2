@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-         <title>Exemple de page de login</title>
+         <title>infos client</title>
         <meta charset="UTF-8">
 
         <!-- Librairie Javascript: jQuery (v3.3.1) -->
@@ -40,6 +40,8 @@ and open the template in the editor.
                 </ul>
             </div> 
         </div>
+        
+        <br> <button id="bouton-Demander_voyance" class="joli-bouton">Demander une voyance</button> 
         
         <div> <b> Historique</b>
             <ul id="historique">
@@ -120,6 +122,15 @@ and open the template in the editor.
                  console.log('Page chargee => Debut du Script'); 
                  AfficherInfo();
                  AfficherHistorique();
+                 
+                  $('#bouton-Demander_voyance').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Demander Voyance"');
+
+                     window.location = "Demande_voyance.html";
+
+                });
                
         });
 
