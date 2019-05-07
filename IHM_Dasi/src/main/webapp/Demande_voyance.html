@@ -42,13 +42,14 @@ and open the template in the editor.
         
         
         <script>
-            function AfficherMediumDispo() {
+            function AfficherMediumDispo(type) {
                 
                 $.ajax({
                     url:'./ActionServlet',
                     method:'POST',
                     data:{
-                         todo:'afficher_mediums_disponibles'
+                         todo:'afficher_mediums_disponibles',
+                         type:type
                     },
                   dataType:'json'
                   
@@ -62,7 +63,8 @@ and open the template in the editor.
                  if (mediums.length>0){
                     listeHTML.append("<li>médium         talent</li>");
                     for(var i= 0;i<mediums.length;i++){
-                      listeHTML.append("<li>"+mediums[i].nom+"||    ||"+mediums[i].talent+"</li>");
+                        //ajout d'une fonction onclick sur chaque ligne de la liste
+                      listeHTML.append("<li onclick='AfficherInfo()'>"+mediums[i].nom+"||    ||"+mediums[i].talent+"</li>");
                     }
                 }
                 
@@ -76,9 +78,18 @@ and open the template in the editor.
                 });
             }
             
+            function AfficherInfo(){
+               $('#info-medium').empty();
+               var listeHTML=$('info-medium'); 
+               listeHTML.append("<li>Nom :</li>");
+               //listeHTML.append("<li>Talent: "+medium.talent+"</li>"); 
+            }
+            
             $(document).ready(function(){
                  console.log('Page chargee => Debut du Script'); 
-                 AfficherMediumDispo();
+                 var type = $('#champ-type').val();
+                 
+                 AfficherMediumDispo(type);
                  
                   $('#bouton-retour').on('click', function () {
 
@@ -97,6 +108,12 @@ and open the template in the editor.
                      window.location = "contacterMedium.html";
 
                 });
+                
+                $('#champ-type').on('change', function () {
+                       var type = $('#champ-type').val();
+                       AfficherMediumDispo(type);
+                });
+      
                
         });
 
