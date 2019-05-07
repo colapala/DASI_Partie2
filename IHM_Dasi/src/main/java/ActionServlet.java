@@ -7,6 +7,7 @@
 import action.Action;
 import action.AfficherHistoClientAction;
 import action.AfficherInfoClientAction;
+import action.AfficherMediumDispoAction;
 import action.SInscrireAction;
 import action.SeConnecterAction;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import serialisation.AfficherHistoClientSerialisation;
 import serialisation.AfficherInfoClientSerialisation;
+import serialisation.AfficherMediumDispoSerialisation;
 import serialisation.SInscrireSerialisation;
 import serialisation.SeConnecterSerialisation;
 import serialisation.Serialisation;
@@ -106,6 +108,23 @@ public class ActionServlet extends HttpServlet {
                             System.out.println("serialisation en cours");
                         }else{
                             response.sendError(403,"erreur survenue");
+                        }
+                        break;
+                      }
+                       
+                     case "afficher_mediums_disponibles":
+                       {
+                        System.out.println("afficher medium disponibles ...");
+                        Action action=new AfficherMediumDispoAction();
+                        Serialisation serialisation=new AfficherMediumDispoSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(404,"erreur survenue");
                         }
                         break;
                       }

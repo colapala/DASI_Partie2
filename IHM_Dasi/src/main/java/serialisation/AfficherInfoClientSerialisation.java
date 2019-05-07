@@ -41,7 +41,7 @@ public class AfficherInfoClientSerialisation extends Serialisation {
         container.addProperty("signeChinois",signeChinois);
         container.addProperty("couleur",couleur);
         container.addProperty("animal",animal);
-        container.addProperty("dateNaissance","30031999");
+        container.addProperty("dateNaissance",dateNaissance.toString());
         container.addProperty("mail",mail);
         container.addProperty("adresse",adresse);
         container.addProperty("tel",tel);
