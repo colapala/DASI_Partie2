@@ -66,10 +66,11 @@ and open the template in the editor.
                         //ajout d'une fonction onclick sur chaque ligne de la liste
                       //listeHTML.append("<li id='0'>"+mediums[i].nom+"||    ||"+mediums[i].talent+"</li>");
                       var li=document.createElement("li");
+                      li.id=i;
                       li.innerHTML=""+mediums[i].nom+"||    ||"+mediums[i].talent+"";
                       
                       li.onclick = function () {
-                         AfficherInfo(mediums[i]);
+                         AfficherInfo(mediums[this.id]);
                       }
                       listeHTML.append(li);
                     }
@@ -86,12 +87,11 @@ and open the template in the editor.
             }
             
             function AfficherInfo(medium){
-                var nom=medium.nom;
-                alert(nom);
-              /*$('#info-medium').empty();
+               alert(medium.nom+"   "+medium.talent+"   "+medium.descriptif);
+              $('#info-medium').empty();
               var infoMedium=$('info-medium'); 
-               infoMedium.append("<li>nom : medium.nom </li>");
-               infoMedium.append("<li>Talent: "+medium.talent+"</li>");*/
+               infoMedium.append("<li>nom : "+medium.nom+" </li>");
+               infoMedium.append("<li>Talent: "+medium.talent+"</li>");
             }
             
              
