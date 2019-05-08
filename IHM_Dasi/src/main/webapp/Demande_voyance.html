@@ -36,7 +36,7 @@ and open the template in the editor.
                     <li> Promotion : </li>
             </ul>
         </div>
-        
+ 
          <br> <button id="bouton-retour" class="joli-bouton">Retour</button> 
           <br> <button id="bouton-contacter-medium" class="joli-bouton">Contacter medium</button> 
         
@@ -64,7 +64,14 @@ and open the template in the editor.
                     listeHTML.append("<li>médium         talent</li>");
                     for(var i= 0;i<mediums.length;i++){
                         //ajout d'une fonction onclick sur chaque ligne de la liste
-                      listeHTML.append("<li onclick='AfficherInfo()'>"+mediums[i].nom+"||    ||"+mediums[i].talent+"</li>");
+                      //listeHTML.append("<li id='0'>"+mediums[i].nom+"||    ||"+mediums[i].talent+"</li>");
+                      var li=document.createElement("li");
+                      li.innerHTML=""+mediums[i].nom+"||    ||"+mediums[i].talent+"";
+                      
+                      li.onclick = function () {
+                         AfficherInfo(mediums[i]);
+                      }
+                      listeHTML.append(li);
                     }
                 }
                 
@@ -78,13 +85,16 @@ and open the template in the editor.
                 });
             }
             
-            function AfficherInfo(){
-               $('#info-medium').empty();
-               var listeHTML=$('info-medium'); 
-               listeHTML.append("<li>Nom :</li>");
-               //listeHTML.append("<li>Talent: "+medium.talent+"</li>"); 
+            function AfficherInfo(medium){
+                var nom=medium.nom;
+                alert(nom);
+              /*$('#info-medium').empty();
+              var infoMedium=$('info-medium'); 
+               infoMedium.append("<li>nom : medium.nom </li>");
+               infoMedium.append("<li>Talent: "+medium.talent+"</li>");*/
             }
             
+             
             $(document).ready(function(){
                  console.log('Page chargee => Debut du Script'); 
                  var type = $('#champ-type').val();
