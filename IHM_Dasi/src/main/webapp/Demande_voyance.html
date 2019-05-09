@@ -27,18 +27,12 @@ and open the template in the editor.
             </ul>
         </div>
         
-        <div><b>Informations sur le médium</b>
-            <ul id="info-medium"> 
-                    <li> Nom : </li>
-                    <li> Talent : </li>
-                    <li> Descriptif : </li>
-                    <li> Formation: </li>
-                    <li> Promotion : </li>
-            </ul>
+        <div id="info-medium">
+            
         </div>
  
          <br> <button id="bouton-retour" class="joli-bouton">Retour</button> 
-          <br> <button id="bouton-contacter-medium" class="joli-bouton">Contacter medium</button> 
+          
         
         
         <script>
@@ -87,11 +81,22 @@ and open the template in the editor.
             }
             
             function AfficherInfo(medium){
-               alert(medium.nom+"   "+medium.talent+"   "+medium.descriptif);
-              $('#info-medium').empty();
-              var infoMedium=$('info-medium'); 
+               var infoMedium=$('#info-medium');
+               infoMedium.empty();
+               infoMedium.append("<b>Informations sur le médium</b>");
+               infoMedium.append('<ul>'); 
                infoMedium.append("<li>nom : "+medium.nom+" </li>");
                infoMedium.append("<li>Talent: "+medium.talent+"</li>");
+               infoMedium.append("<li>Descriptif: "+medium.descriptif+"</li>");
+               
+               if(medium.talent=="Astrologue"){
+                    infoMedium.append("<li>Formation: "+medium.formation+"</li>");
+                    infoMedium.append("<li>Promotion: "+medium.promotion+"</li>");
+                }else if(medium.talent=="Voyant"){
+                    infoMedium.append("<li>Specialité: "+medium.specialite+"</li>");
+                }
+                infoMedium.append('<ul>');
+                infoMedium.append('<br> <button id="bouton-contacter-medium" class="joli-bouton">Contacter '+ medium.nom+'</button>'); 
             }
             
              
