@@ -31,8 +31,8 @@ and open the template in the editor.
             
         </div>
  
+         <br> <button id="bouton-contacter-medium" class="joli-bouton" style="display: none;">Contacter</button>
          <br> <button id="bouton-retour" class="joli-bouton">Retour</button> 
-          
         
         
         <script>
@@ -96,7 +96,11 @@ and open the template in the editor.
                     infoMedium.append("<li>Specialité: "+medium.specialite+"</li>");
                 }
                 infoMedium.append('<ul>');
-                infoMedium.append('<br> <button id="bouton-contacter-medium" class="joli-bouton">Contacter '+ medium.nom+'</button>'); 
+                infoMedium.append('Pour Contacter '+ medium.nom+', veuillez cliquer ici :'); 
+                document.getElementById('bouton-contacter-medium').style="";
+                
+                        
+               
             }
             
              
@@ -106,7 +110,7 @@ and open the template in the editor.
                  
                  AfficherMediumDispo(type);
                  
-                  $('#bouton-retour').on('click', function () {
+                $('#bouton-retour').on('click', function () {
 
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Demander Voyance"');
@@ -120,7 +124,7 @@ and open the template in the editor.
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Demander Voyance"');
 
-                     window.location = "contacterMedium.html";
+                     window.location = "menu.html";
 
                 });
                 
