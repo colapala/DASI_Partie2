@@ -8,6 +8,8 @@ import action.Action;
 import action.AfficherHistoClientAction;
 import action.AfficherInfoClientAction;
 import action.AfficherMediumDispoAction;
+import action.AfficherProchainClientAction;
+import action.AfficherTopMediumsAction;
 import action.SInscrireAction;
 import action.SeConnecterAction;
 import java.io.IOException;
@@ -20,6 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 import serialisation.AfficherHistoClientSerialisation;
 import serialisation.AfficherInfoClientSerialisation;
 import serialisation.AfficherMediumDispoSerialisation;
+import serialisation.AfficherProchainClientSerialisation;
+import serialisation.AfficherTopMediumsSerialisation;
 import serialisation.SInscrireSerialisation;
 import serialisation.SeConnecterSerialisation;
 import serialisation.Serialisation;
@@ -117,6 +121,40 @@ public class ActionServlet extends HttpServlet {
                         System.out.println("afficher medium disponibles ...");
                         Action action=new AfficherMediumDispoAction();
                         Serialisation serialisation=new AfficherMediumDispoSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(404,"erreur survenue");
+                        }
+                        break;
+                      }
+                       
+                       case "afficher_prochain_client":
+                       {
+                        System.out.println("afficher le prochain client ...");
+                        Action action=new AfficherProchainClientAction();
+                        Serialisation serialisation=new AfficherProchainClientSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(404,"erreur survenue");
+                        }
+                        break;
+                      }
+                       
+                       case "afficher_top_medium":
+                       {
+                        System.out.println("afficher le top 3 des médiums ...");
+                        Action action=new AfficherTopMediumsAction();
+                        Serialisation serialisation=new AfficherTopMediumsSerialisation();
 
                         boolean actionStatus=action.executer(request);
                         System.out.println("action réussie: "+actionStatus);
