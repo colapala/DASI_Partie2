@@ -8,6 +8,7 @@ package action;
 import fr.insalyon.dasi.td.jpa.modele.Client;
 import fr.insalyon.dasi.td.jpa.modele.Employe;
 import fr.insalyon.dasi.td.jpa.service.Service;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,9 +35,11 @@ public class SInscrireAction extends Action {
            System.out.println("action en cours d'execution");
            
            try{
-            Date d=new Date();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date dateNaissance = sdf.parse(date);
+            
             Service service= new Service();
-            Client c=new Client(nom,prenom,civilite,d,adresse,tel, mail,password);
+            Client c=new Client(nom,prenom,civilite,dateNaissance,adresse,tel, mail,password);
             c=service.inscrireClient(c);
             session.setAttribute("utilisateur",c);
             request.setAttribute("reussie", true);

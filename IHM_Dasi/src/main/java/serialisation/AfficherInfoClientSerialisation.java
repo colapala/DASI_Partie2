@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +42,12 @@ public class AfficherInfoClientSerialisation extends Serialisation {
         container.addProperty("signeChinois",signeChinois);
         container.addProperty("couleur",couleur);
         container.addProperty("animal",animal);
-        container.addProperty("dateNaissance",dateNaissance.toString());
+        
+        //transformation de la date en string
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String date= sdf.format(dateNaissance);
+        container.addProperty("dateNaissance",date);
+        
         container.addProperty("mail",mail);
         container.addProperty("adresse",adresse);
         container.addProperty("tel",tel);
