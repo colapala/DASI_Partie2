@@ -31,7 +31,7 @@ and open the template in the editor.
             
         </div>
  
-         <br> <button id="bouton-contacter-medium" class="joli-bouton" style="display: none;">Contacter</button>
+         <br> <button id="bouton-contacter-medium" class="joli-bouton" style="display: none;"></button>
          <br> <button id="bouton-retour" class="joli-bouton">Retour</button> 
         
         
@@ -96,10 +96,10 @@ and open the template in the editor.
                     infoMedium.append("<li>Specialité: "+medium.specialite+"</li>");
                 }
                 infoMedium.append('<ul>');
-                infoMedium.append('Pour Contacter '+ medium.nom+', veuillez cliquer ici :'); 
-                document.getElementById('bouton-contacter-medium').style="";
-                
-                        
+                var button=document.getElementById('bouton-contacter-medium');
+                button.style="";
+                button.value=medium.nom;
+                button.innerHTML='Contacter '+ medium.nom;   
                
             }
             
@@ -123,7 +123,8 @@ and open the template in the editor.
 
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Demander Voyance"');
-
+                     alert("Demande enregistrée pour "+this.value)
+                     //appeler le service findMediumParNom(nom) et DemanderVoyance(client,medium)
                      window.location = "menu.html";
 
                 });
