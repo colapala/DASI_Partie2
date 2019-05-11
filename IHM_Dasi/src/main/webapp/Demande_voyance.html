@@ -11,10 +11,23 @@ and open the template in the editor.
 
         <!-- Librairie Javascript: jQuery (v3.3.1) -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        
+         <style>
+            /* Feuille de Style CSS (dans la page) */
+            li{font-size: 24px;text-align: left;margin-left: 20%;}
+            select{font-size: 18px;}
+            #mediums{float:left;width:50%; height:80%;text-align: center;margin-top: 4%}
+            #infos{float:right;width:50%; height:80%;right:50%;text-align: center;margin-top: 4%}
+            button.joli-bouton{font-size: 18px;}
+            #bouton-contacter-medium{float:right;}
+            b.titre{font-size: 32px;}
+        </style>
 
     </head>
     <body>
-        <div><b>Mediums Disponibles</b>
+        
+     
+        <div id="mediums"><b class="titre">Mediums Disponibles</b>
             <br><SELECT id="champ-type" size="1">
                 <OPTION>Tous
                 <OPTION>Voyant
@@ -25,15 +38,19 @@ and open the template in the editor.
             <ul id="medium-dispo"> 
                     <li> pas de médiums disponibles </li>
             </ul>
+            
+             <br> <button id="bouton-retour" class="joli-bouton">Retour</button> 
         </div>
         
-        <div id="info-medium">
+        
+        <div id="infos">
+            <div id="info-medium">
             
+            </div>
+            <br> <button id="bouton-contacter-medium" class="joli-bouton" style="display: none;"></button>
         </div>
  
-         <br> <button id="bouton-contacter-medium" class="joli-bouton" style="display: none;"></button>
-         <br> <button id="bouton-retour" class="joli-bouton">Retour</button> 
-        
+         
         
         <script>
             function AfficherMediumDispo(type) {
@@ -83,17 +100,17 @@ and open the template in the editor.
             function AfficherInfo(medium){
                var infoMedium=$('#info-medium');
                infoMedium.empty();
-               infoMedium.append("<b>Informations sur le médium</b>");
+               infoMedium.append("<b class='titre'>Informations sur le médium</b>");
                infoMedium.append('<ul>'); 
-               infoMedium.append("<li>nom : "+medium.nom+" </li>");
-               infoMedium.append("<li>Talent: "+medium.talent+"</li>");
-               infoMedium.append("<li>Descriptif: "+medium.descriptif+"</li>");
+               infoMedium.append("<li>nom : <b>"+medium.nom+" </b></li>");
+               infoMedium.append("<li>Talent:<b> "+medium.talent+"</b></li>");
+               infoMedium.append("<li>Descriptif: <b>"+medium.descriptif+"</b></li>");
                
                if(medium.talent=="Astrologue"){
-                    infoMedium.append("<li>Formation: "+medium.formation+"</li>");
-                    infoMedium.append("<li>Promotion: "+medium.promotion+"</li>");
+                    infoMedium.append("<li>Formation: <b>"+medium.formation+"</b></li>");
+                    infoMedium.append("<li>Promotion: <b>"+medium.promotion+"</b></li>");
                 }else if(medium.talent=="Voyant"){
-                    infoMedium.append("<li>Specialité: "+medium.specialite+"</li>");
+                    infoMedium.append("<li>Specialité: <b>"+medium.specialite+"</b></li>");
                 }
                 infoMedium.append('<ul>');
                 var button=document.getElementById('bouton-contacter-medium');
