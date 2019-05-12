@@ -8,9 +8,193 @@ and open the template in the editor.
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Librairie Javascript: jQuery (v3.3.1) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     </head>
     <body>
-        <div>Page début de la voyance</div>
+        
+        <div>
+            <b>INFORMATIONS CLIENT  </b>
+			<br />
+			<br />
+            
+            <div><b>Astrologique</b>
+                <ul id="astro-client-actuel">   
+                    <li> Signe du Zodiaque: </li>
+                    <li> Chinois: </li>
+                    <li> Couleur porte-bonneur: </li>
+                    <li> Animal-totem:</li>
+                </ul> 
+            </div> 
+            
+            <div><b>Personnelle</b>
+                 <ul id="info-client-actuel">
+					<li> Civilité:  </li> 
+					<li> Nom:  </li> 
+					<li> Prénom:  </li> 
+					<li> Date de naissance: </li>
+                    <li> Numéro de téléphone: </li>
+                    <li> Adresse: </li>
+                    <li> Mail:</li>
+                </ul>
+            </div>       
+        
+        <div>
+            <br />
+            <b>PREDICTIONS :  </b>
+            <br />
+            <br />
+            <br><SELECT id="champ-type" size="1">
+                <OPTION>Mauvais
+                <OPTION>Moyen
+                <OPTION>Bon
+                <OPTION>Parfait
+            </SELECT><br>
+			<ul id="predictions">   
+				<li> Amour: </li>
+				<li> Santé: </li>
+				<li> Travail: </li>
+            </ul> 
+            
+            <br> <button id="bouton-rafraichir" class="joli-bouton">Rafraîchir</button> 
+        </div>
+        
+        <div>
+            <br />
+            <b>HISTORIQUE :  </b>
+            <br />
+            <br />
+            
+			<ul id="historique-consultations">   
+            </ul> 
+
+        </div>
+            
+        <br> <button id="bouton-commencer-voyance" class="joli-bouton">Retour</button> 
+        
+        <script>
+            function AfficherDetailClientActuel() {
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_info_client_actuel'
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                $('#astro-client-actuel').empty();
+                $('#info-client-actuel').empty();
+                
+                var listeHTML1=$('#astro-client-actuel');
+                  listeHTML1.append("<li> Signe du Zodiac : "+response.signeZodiac+ "</li> <li> Signe chinois : "+response.signeChinois+ "</li> <li> Couleur :  " +response.couleur+" </li> <li> Animal : "+response.animal+" </li>");
+                 var listeHTML2=$('#info-client-actuel');
+                   listeHTML2.append( " <li> Civilité : "+response.civilite+"</li> <li> Nom : "+response.nom+"</li> <li> Prénom : "+response.prenom+"</li> <li> Date de naissance : "+response.dateNaissance+"</li> <li> Téléphone : "+response.tel+"</li> <li> Adresse postale :"+response.adresse+"</li> <li> Adresse mail :"+response.mail+" </li>");
+
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "menuEmploye.html";
+                });
+            }
+            
+            function AfficherHistoriqueConsultation() {
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_historique_client_actuel'
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                $('#historique-consultations').empty();
+                
+                 var voyance=response.listeVoyance;
+                 var listeHTML=$('#historique-consultations');
+                 
+                 if (voyance.length>0){
+                    for(var i= 0;i<voyance.length;i++){
+                      listeHTML.append("<li> Date :  "+voyance[i].date[i]+"</li> <li> Personne :  "+voyance[i].medium+", "+voyance[i].qualification+"</li> <li> Commentaire :  "+voyance[i].commentaire+"</li> ;)
+                    }
+                } else {
+                    listeHTML.append("pas de voyance");
+                }
+                
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "index.html";
+                });
+            }
+            
+            
+             function AfficherPredictions() {
+                 $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_predictions'
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                
+                $('#predictions').empty();
+
+                var predictions=$('#predictions');
+                  predictions.append("<li> Amour : "+response.amour+ "</li> <li> Santé : "+response.sante+ "</li> <li> Travail :  " +response.travail+" </li>");
+                 
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "menuEmploye.html";
+                });
+            }
+            
+            
+            $(document).ready(function(){
+                console.log('Page chargee => Debut du Script'); 
+                
+                //AfficherPredictions(); 
+                //AfficherHistoriqueConsultation();                
+                //AfficherDetailClientActuel();
+                 
+                $('#bouton-Retour').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Retour"');
+
+                    window.location = "menuEmploye.html";
+
+                });
+                
+                $('#bouton-rafraichir').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Rafraichir"');
+
+					//    window.location = "menuEmploye.html";
+					// MANQUE LA POP UP
+
+                });
+               
+        });
+
+
+
+            </script>
     </body>
 </html>

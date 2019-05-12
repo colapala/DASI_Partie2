@@ -33,6 +33,8 @@ and open the template in the editor.
                     <li> Civilité :  </li>
                     <li> Nom :  </li>
                     <li> Prénom : </li>
+                    <li> Médium : </li>
+                    
                 </ul> 
 
         </div>
@@ -80,7 +82,7 @@ and open the template in the editor.
                 $('#prochain-client').empty();
                 
                 var prochainClient=$('#prochain-client');
-                 prochainClient.append("<li> Civilité : "+response.civilite+ "</li> <li> Nom :  "+response.nom+ "</li> <li> Prénom :   " +response.prenom+" </li>");
+                 prochainClient.append("<li> Civilité : "+response.civilite+ "</li> <li> Nom :  "+response.nom+ "</li> <li> Prénom :   " +response.prenom+" </li> <li> Médium : "+response.medium+ "</li>");
   
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
