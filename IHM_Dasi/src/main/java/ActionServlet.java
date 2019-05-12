@@ -10,7 +10,13 @@ import action.AfficherInfoClientAction;
 import action.AfficherMediumDispoAction;
 import action.AfficherProchainClientAction;
 import action.AfficherTopMediumsAction;
+import action.AfficherTopEmployeAction;
+import action.AfficherAppelEntrepriseAction;
+import action.AfficherAppelPersonnelAction;
+import action.AfficherPredictionsAction;
+import action.AfficherDetailClientActuelAction;
 import action.SInscrireAction;
+import action.AfficherHistoriqueConsultationAction;
 import action.SeConnecterAction;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -26,7 +32,13 @@ import serialisation.AfficherProchainClientSerialisation;
 import serialisation.AfficherTopMediumsSerialisation;
 import serialisation.SInscrireSerialisation;
 import serialisation.SeConnecterSerialisation;
+import serialisation.AfficherDetailClientActuelSerialisation;                        
+import serialisation.AfficherTopEmployeSerialisation;
+import serialisation.AfficherHistoriqueConsultationSerialisation;
+import serialisation.AfficherAppelEntrepriseSerialisation;
+import serialisation.AfficherAppelPersonnelSerialisation;
 import serialisation.Serialisation;
+import serialisation.AfficherPredictionsSerialisation;
 
 /**
  *
@@ -145,7 +157,7 @@ public class ActionServlet extends HttpServlet {
                             serialisation.serialiser(request, response);
                             System.out.println("serialisation en cours");
                         }else{
-                            response.sendError(404,"erreur survenue");
+                            response.sendError(405,"erreur survenue");
                         }
                         break;
                       }
@@ -162,7 +174,109 @@ public class ActionServlet extends HttpServlet {
                             serialisation.serialiser(request, response);
                             System.out.println("serialisation en cours");
                         }else{
-                            response.sendError(404,"erreur survenue");
+                            response.sendError(406,"erreur survenue");
+                        }
+                        break;
+                      }
+                      
+                      case "afficher_top_employes":
+                       {
+                        System.out.println("afficher le top 3 des employes ...");
+                        Action action=new AfficherTopEmployeAction();
+                        Serialisation serialisation=new AfficherTopEmployeSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(407,"erreur survenue");
+                        }
+                        break;
+                      }
+                      
+                      case "afficher_appel_entreprise":
+                       {
+                        System.out.println("afficher les stats d'appel entreprise ...");
+                        Action action=new AfficherAppelEntrepriseAction();
+                        Serialisation serialisation=new AfficherAppelEntrepriseSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(408,"erreur survenue");
+                        }
+                        break;
+                      }
+                      
+                      case "afficher_appel_personnel":
+                       {
+                        System.out.println("afficher les stats d'appel personnel ...");
+                        Action action=new AfficherAppelPersonnelAction();
+                        Serialisation serialisation=new AfficherAppelPersonnelSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(409,"erreur survenue");
+                        }
+                        break;
+                      }
+                      
+                      case "afficher_info_client_actuel":
+                       {
+                        System.out.println("afficher info du client actuel ...");
+                        Action action=new AfficherDetailClientActuelAction();
+                        Serialisation serialisation=new AfficherDetailClientActuelSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(410,"erreur survenue");
+                        }
+                        break;
+                      }
+                      
+                      case "afficher_historique_client_actuel":
+                       {
+                        System.out.println("afficher historique du client actuel ...");
+                        Action action=new AfficherHistoriqueConsultationAction();
+                        Serialisation serialisation=new AfficherHistoriqueConsultationSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(411,"erreur survenue");
+                        }
+                        break;
+                      }
+                      
+                      case "afficher_predictions":
+                       {
+                        System.out.println("afficherles prédictions ...");
+                        Action action=new AfficherPredictionsAction();
+                        Serialisation serialisation=new AfficherPredictionsSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(411,"erreur survenue");
                         }
                         break;
                       }
