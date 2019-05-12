@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import fr.insalyon.dasi.td.jpa.modele.Medium;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,22 +19,17 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author cjourdan
  */
-public class AfficherProchainClientSerialisation extends Serialisation{
-    
+public class AfficherAppelEntrepriseSerialisation extends Serialisation {
     @Override 
       
-      public void serialiser(HttpServletRequest request, HttpServletResponse response)throws IOException{
+    public void serialiser(HttpServletRequest request, HttpServletResponse response)throws IOException{
         JsonObject container=new JsonObject();
         
-        String nom= (String)request.getAttribute("nom");
-        String prenom= (String)request.getAttribute("prenom");
-        String civilite= (String)request.getAttribute("civilite");
-        String medium= (String)request.getAttribute("medium");
+        Medium[] listeMedium= (Medium[])request.getAttribute("listeMedium");
+        int[] listeAppel= (int[])request.getAttribute("listeAppel");
 
-        container.addProperty("nom",nom);
-        container.addProperty("prenom",prenom);
-        container.addProperty("civilite",civilite);
-        container.addProperty("medium",medium);
+        container.addProperty("listeMedium",listeMedium);
+        container.addProperty("listeAppel",listeAppel);
             
         PrintWriter out=this.getWriterWithJsonHeader(response);
         Gson gson=new GsonBuilder().setPrettyPrinting().create();
@@ -41,4 +37,5 @@ public class AfficherProchainClientSerialisation extends Serialisation{
         out.println(json);
         System.out.println(json);
     }
+    
 }

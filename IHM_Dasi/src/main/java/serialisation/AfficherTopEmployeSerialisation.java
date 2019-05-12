@@ -18,22 +18,19 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author cjourdan
  */
-public class AfficherProchainClientSerialisation extends Serialisation{
-    
+public class AfficherTopEmployeSerialisation extends Serialisation {
     @Override 
       
-      public void serialiser(HttpServletRequest request, HttpServletResponse response)throws IOException{
+    public void serialiser(HttpServletRequest request, HttpServletResponse response)throws IOException{
         JsonObject container=new JsonObject();
         
-        String nom= (String)request.getAttribute("nom");
-        String prenom= (String)request.getAttribute("prenom");
-        String civilite= (String)request.getAttribute("civilite");
-        String medium= (String)request.getAttribute("medium");
+        String employe1= (String)request.getAttribute("employe1");
+        String employe2= (String)request.getAttribute("employe2");
+        String employe3= (String)request.getAttribute("employe3");
 
-        container.addProperty("nom",nom);
-        container.addProperty("prenom",prenom);
-        container.addProperty("civilite",civilite);
-        container.addProperty("medium",medium);
+        container.addProperty("employe1",employe1);
+        container.addProperty("employe2",employe2);
+        container.addProperty("employe3",employe3);
             
         PrintWriter out=this.getWriterWithJsonHeader(response);
         Gson gson=new GsonBuilder().setPrettyPrinting().create();
@@ -41,4 +38,5 @@ public class AfficherProchainClientSerialisation extends Serialisation{
         out.println(json);
         System.out.println(json);
     }
+    
 }
