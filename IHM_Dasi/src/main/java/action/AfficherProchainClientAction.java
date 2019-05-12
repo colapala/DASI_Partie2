@@ -6,6 +6,7 @@
 package action;
 
 import fr.insalyon.dasi.td.jpa.modele.Client;
+import fr.insalyon.dasi.td.jpa.modele.Voyance;
 import fr.insalyon.dasi.td.jpa.modele.Employe;
 import fr.insalyon.dasi.td.jpa.service.Service;
 import java.util.Date;
@@ -27,14 +28,18 @@ public class AfficherProchainClientAction extends Action{
            Employe emp=(Employe) session.getAttribute("utilisateur");
            Service service= new Service();
            Client c = service.getClientEnAttente(emp);
+           Voyance v=getVoyanceEnAttente(c,emp);
+           
            if(c!=null){
-                request.setAttribute("civilite", service.getClientEnAttente(emp).getCivilite());
-                request.setAttribute("nom", service.getClientEnAttente(emp).getNom());
-                request.setAttribute("prenom", service.getClientEnAttente(emp).getPrenom());
+                request.setAttribute("civilite", c.getCivilite());
+                request.setAttribute("nom", c.getNom());
+                request.setAttribute("prenom", c.getPrenom());
+                request.setAttribute("medium", v.getMedium().getNom());
            } else {
                request.setAttribute("civilite", "pas de client pour le moment");
                request.setAttribute("nom", "pas de client pour le moment");
                request.setAttribute("prenom", "pas de client pour le moment");
+               request.setAttribute("medium", "pas de client pour le moment");
            }
            
            }catch (Exception e){

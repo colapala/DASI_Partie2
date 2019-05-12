@@ -22,47 +22,41 @@ import javax.servlet.http.HttpSession;
  *
  * @author cjourdan
  */
-public class AfficherTopMediumsAction extends Action {
+public class AfficherTopEmployeAction extends Action {
     
      @Override
      
     public boolean executer(HttpServletRequest request){
            boolean execute=true; 
-           System.out.println("action top medium en cours");
+           System.out.println("action top employe en cours");
            try{
            HttpSession session=request.getSession(true);
-           Employe emp=(Employe) session.getAttribute("utilisateur");
            Service service= new Service();
            
-           Medium medium1=null;
-           Medium medium2=null;
-           Medium medium3=null;
+           Employe emp1=null;
+           Employe emp2=null;
+           Employe emp3=null;
            
-           Map<Medium,Integer> top=service.getClassementMediumPourEmploye(emp);
+           Map<Medium,Integer> top=service.getClassementEmploye();
            
-           medium1 = top.keySet().toArray()[0];
-           medium2 = top.keySet().toArray()[1];
-           medium3 = top.keySet().toArray()[2];
+           emp1 = top.keySet().toArray()[0];
+           emp2 = top.keySet().toArray()[1];
+           emp3 = top.keySet().toArray()[2];
 
-			//Ancienne version 
-           /*for (Map.Entry mapentry : top.entrySet()) {
-               medium1=(Medium) mapentry.getKey();
-            }*/
-
-           if(medium1!=null){
-                request.setAttribute("medium1", medium1.getNom());
+           if(emp1!=null){
+                request.setAttribute("employe1", emp1.getNom());
            } else {
-               request.setAttribute("medium1", "pas d'autre médium");
+               request.setAttribute("employe1", "pas d'autre employe");
            }
-           if(medium2!=null){
-                request.setAttribute("medium2", medium2.getNom());
+           if(emp2!=null){
+                request.setAttribute("employe1", emp2.getNom());
            } else {
-               request.setAttribute("medium2", "pas d'autre médium");
+               request.setAttribute("employe1", "pas d'autre employe");
            }
-           if(medium3!=null){
-                request.setAttribute("medium3", medium3.getNom());
+           if(emp3!=null){
+                request.setAttribute("meemploye1dium3", emp3.getNom());
            } else {
-               request.setAttribute("medium3", "pas d'autre médium");
+               request.setAttribute("employe1", "pas d'autre employe");
            }
            
            }catch (Exception e){
