@@ -10,6 +10,7 @@ import fr.insalyon.dasi.td.jpa.modele.Client;
 import fr.insalyon.dasi.td.jpa.modele.Employe;
  import fr.insalyon.dasi.td.jpa.modele.Medium;
 import fr.insalyon.dasi.td.jpa.service.Service;
+import java.util.ArrayList;
  
 import java.util.Date;
 import java.util.Iterator;
@@ -34,36 +35,25 @@ public class AfficherTopMediumsAction extends Action {
            Employe emp=(Employe) session.getAttribute("utilisateur");
            Service service= new Service();
            
-           Medium medium1=null;
-           Medium medium2=null;
-           Medium medium3=null;
-           
            Map<Medium,Integer> top=service.getClassementMediumPourEmploye(emp);
            
-           medium1 = top.keySet().toArray()[0];
-           medium2 = top.keySet().toArray()[1];
-           medium3 = top.keySet().toArray()[2];
+           ArrayList<Medium> Mediums=new ArrayList();
 
-			//Ancienne version 
-           /*for (Map.Entry mapentry : top.entrySet()) {
-               medium1=(Medium) mapentry.getKey();
-            }*/
-
-           if(medium1!=null){
-                request.setAttribute("medium1", medium1.getNom());
-           } else {
-               request.setAttribute("medium1", "pas d'autre médium");
+           for(Map.Entry<Medium, Integer> entry : top.entrySet()) {
+                 Mediums.add(entry.getKey());
            }
-           if(medium2!=null){
-                request.setAttribute("medium2", medium2.getNom());
-           } else {
-               request.setAttribute("medium2", "pas d'autre médium");
-           }
-           if(medium3!=null){
-                request.setAttribute("medium3", medium3.getNom());
-           } else {
-               request.setAttribute("medium3", "pas d'autre médium");
-           }
+            
+          String nbMedium; 
+          for (int i=0;i<3;i++){
+             nbMedium =("medium"+(i+1)).toString();
+              if(i<Mediums.size()){
+                Medium medium = Mediums.get(i);
+                System.out.println(nbMedium);
+                request.setAttribute(nbMedium, medium.getNom());
+              }else{
+                 request.setAttribute(nbMedium, "pas d'autre médium"); 
+              }
+          }
            
            }catch (Exception e){
                execute=false;

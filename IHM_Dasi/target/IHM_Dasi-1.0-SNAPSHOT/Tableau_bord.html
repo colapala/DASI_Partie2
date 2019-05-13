@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <!-- Librairie Javascript: jQuery (v3.3.1) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    </head>
+    <body>
+        
+        <div>
+            <b>ENTREPRISE </b>
+			<br />
+			<br />
+			
+            <div><u>Top 3 des employés : </u>
+                <ul id="top-employes">   
+                    <li> 1. </li>
+                    <li> 2. </li>
+                    <li> 3.</li>
+                </ul> 
+            </div>
+            <div><u>Nombre d'appels par médium : </u>
+                <ul id="appel-medium-entreprise">   
+
+                </ul> 
+            </div>
+            
+        </div>
+      
+        
+        <div>
+            <br />
+            <b>PERSONNEL :  </b>
+            <br />
+            <br />
+            
+            <div><u>Nombre d'appels par médium : </u>
+				<ul id="appel-medium-personnel">   
+
+				</ul> 
+            </div>
+
+        </div>
+            
+        <br> <button id="bouton-Retour" class="joli-bouton">Retour</button> 
+        
+        <script>
+            function AfficherTopEmployes() {
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_top_employes'
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                 $('#top-employes').empty();
+                
+                var topEmployes=$('#top-employes');
+                  topEmployes.append("<li> 1. "+response.employe1+ "</li> <li> 2. "+response.employe2+ "</li> <li> 3.  " +response.employe3+" </li>");
+                 
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "menuEmploye.html";
+                });
+            }
+            
+            function AfficherAppelEntreprise() {
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_appel_entreprise'
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                $('#appel-medium-entreprise').empty();
+                
+                var listeEntr=response.listeAppelEntr;
+                var liste=$('#appel-medium-entreprise');
+                
+                 for(var i= 0;i<listeEntr.length;i++){
+                        //ajout d'une fonction onclick sur chaque ligne de la liste
+                     liste.append("<li>"+listeEntr[i].medium+"||    ||"+listeEntr[i].nbAppel+"</li>");
+                    }
+                    
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue (entreprise)');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "menuEmploye.html";
+                });
+            }
+            
+            
+             function AfficherAppelPersonnel() {
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_appel_personnel'
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                $('#appel-medium-personnel').empty();
+                
+                var listeAppel=response.listeAppel;
+                var listePerso=$('#appel-medium-personnel');
+                
+                 for(var j= 0;j<listeAppel.length;j++){
+                        //ajout d'une fonction onclick sur chaque ligne de la liste
+                     listePerso.append("<li>"+listeAppel[j].medium+"||    ||"+listeAppel[j].nbAppel+"</li>");
+                    }
+  
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "menuEmploye.html";
+                });
+            }
+            
+            
+            $(document).ready(function(){
+                console.log('Page chargee => Debut du Script');  
+                AfficherTopEmployes();    
+               // AfficherAppelEntreprise();
+                //AfficherAppelPersonnel();          
+            
+                $('#bouton-Retour').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Retour"');
+
+                    window.location = "menuEmploye.html";
+
+                });
+               
+        });
+
+
+
+            </script>
+    </body>
+</html>

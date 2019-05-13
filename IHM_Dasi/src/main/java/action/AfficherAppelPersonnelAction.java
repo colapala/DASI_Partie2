@@ -35,13 +35,9 @@ public class AfficherAppelPersonnelAction extends Action {
            Service service= new Service();
            
            Map<Medium,Integer> top=service.getClassementMediumPourEmploye(emp);
-			Medium[] tableauMedium = hashMap.keySet().toArray();
-			int[] tableauNombre = hashMap.values().toArray();
+		
+           request.setAttribute("map", top);
 
-           request.setAttribute("listeMediumPerso", tableauMedium);
-           request.setAttribute("listeAppelPerso", tableauNombre);
-           
-           
            }catch (Exception e){
                execute=false;
            } 

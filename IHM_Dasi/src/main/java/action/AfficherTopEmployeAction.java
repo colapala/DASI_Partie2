@@ -10,6 +10,7 @@ import fr.insalyon.dasi.td.jpa.modele.Client;
 import fr.insalyon.dasi.td.jpa.modele.Employe;
  import fr.insalyon.dasi.td.jpa.modele.Medium;
 import fr.insalyon.dasi.td.jpa.service.Service;
+import java.util.ArrayList;
  
 import java.util.Date;
 import java.util.Iterator;
@@ -37,11 +38,17 @@ public class AfficherTopEmployeAction extends Action {
            Employe emp2=null;
            Employe emp3=null;
            
-           Map<Medium,Integer> top=service.getClassementEmploye();
+           Map<Employe,Integer> top=service.getClassementEmploye();
            
-           emp1 = top.keySet().toArray()[0];
-           emp2 = top.keySet().toArray()[1];
-           emp3 = top.keySet().toArray()[2];
+           ArrayList<Employe> Employes=new ArrayList();
+
+           for(Map.Entry<Employe, Integer> entry : top.entrySet()) {
+                 Employes.add(entry.getKey());
+           }
+                 
+           emp1 = Employes.get(0);
+           emp2 = Employes.get(1);
+           emp3 = Employes.get(2);
 
            if(emp1!=null){
                 request.setAttribute("employe1", emp1.getNom());

@@ -64,7 +64,7 @@ and open the template in the editor.
                 // console.log(data); // Afficher dans la console JavaScript
                  $('#top-employes').empty();
                 
-                var topEmployes=$('#top-rmployes');
+                var topEmployes=$('#top-employes');
                   topEmployes.append("<li> 1. "+response.employe1+ "</li> <li> 2. "+response.employe2+ "</li> <li> 3.  " +response.employe3+" </li>");
                  
                 }).fail( function (error) { // Appel KO => erreur a gérer
@@ -88,30 +88,20 @@ and open the template in the editor.
                   
                 }).done(function(response){ 
                 // console.log(data); // Afficher dans la console JavaScript
-                $('#prochain-client').empty();
+                $('#appel-medium-entreprise').empty();
                 
-                var appelsEntrepriseMedium=response.listeMedium;
-                var appelsEntrepriseNombre=response.listeAppel;
+                var listeEntr=response.listeAppelEntr;
                 var liste=$('#appel-medium-entreprise');
                 
-                 if (appelsEntrepriseMedium.length>0){
-					 for(var i= 0;i<appelsEntrepriseMedium.length;i++){
-						 
-						 if(appelsEntrepriseMedium[i]!=null){ //inutile ?
-						 
-							  var med=document.createElement("med");
-							  med.id=i;
-							  med.innerHTML=""+appelsEntrepriseMedium[i]+" :  "+appelsEntrepriseNombre[i]"";
-
-							  liste.append(me);
-					  }
-					 }
-				 }
-  
+                 for(var i= 0;i<listeEntr.length;i++){
+                        //ajout d'une fonction onclick sur chaque ligne de la liste
+                     liste.append("<li>"+listeEntr[i].medium+"||    ||"+listeEntr[i].nbAppel+"</li>");
+                    }
+                    
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
                     // Popup avec message d'erreur :
-                    alert('une erreur est survenue');
+                    alert('une erreur est survenue (entreprise)');
                     // Message d'erreur dans la div #message :
                     $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "menuEmploye.html";
@@ -130,22 +120,15 @@ and open the template in the editor.
                   
                 }).done(function(response){ 
                 // console.log(data); // Afficher dans la console JavaScript
-                $('#prochain-client').empty();
+                $('#appel-medium-personnel').empty();
                 
-                var appelsPersonnelMedium=response.listeMediumPerso;
-                var appelsPersonnelNombre=response.listeAppelPerso;
+                var listeAppel=response.listeAppel;
                 var listePerso=$('#appel-medium-personnel');
                 
-                 if (appelsPersonnelMedium.length>0){
-					 for(var i= 0;i<appelsPersonnelMedium.length;i++){
-						 
-						  var med=document.createElement("med");
-						  med.id=i;
-						  med.innerHTML=""+appelsPersonnelMedium[i]+" :  "+appelsPersonnelNombre[i]"";
-
-						  listePerso.append(me);
-					 }
-				 }
+                 for(var j= 0;j<listeAppel.length;j++){
+                        //ajout d'une fonction onclick sur chaque ligne de la liste
+                     listePerso.append("<li>"+listeAppel[j].medium+"||    ||"+listeAppel[j].nbAppel+"</li>");
+                    }
   
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
@@ -160,10 +143,10 @@ and open the template in the editor.
             
             $(document).ready(function(){
                 console.log('Page chargee => Debut du Script');  
-               // AfficherTopEmployes();    
+                AfficherTopEmployes();    
                // AfficherAppelEntreprise();
-               // AfficherAppelPersonnel();          
-                 
+                //AfficherAppelPersonnel();          
+            
                 $('#bouton-Retour').on('click', function () {
 
                     // affichage pour debugage dans la console javascript du navigateur

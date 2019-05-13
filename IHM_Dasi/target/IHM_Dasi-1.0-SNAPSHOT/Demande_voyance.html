@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+         <title>voyance</title>
+        <meta charset="UTF-8">
+
+        <!-- Librairie Javascript: jQuery (v3.3.1) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        
+         <style>
+            /* Feuille de Style CSS (dans la page) */
+            li{font-size: 24px;text-align: left;margin-left: 20%;}
+            select{font-size: 18px;}
+            #mediums{float:left;width:50%; height:80%;text-align: center;margin-top: 4%}
+            #infos{float:right;width:50%; height:80%;right:50%;text-align: center;margin-top: 4%}
+            button.joli-bouton{font-size: 18px;}
+            #bouton-contacter-medium{float:right;}
+            b.titre{font-size: 32px;}
+        </style>
+
+    </head>
+    <body>
+        
+     
+        <div id="mediums"><b class="titre">Mediums Disponibles</b>
+            <br><SELECT id="champ-type" size="1">
+                <OPTION>Tous
+                <OPTION>Voyant
+                <OPTION>Tarologue
+                <OPTION>Astrologue
+            </SELECT><br>
+            
+            <ul id="medium-dispo"> 
+                    <li> pas de médiums disponibles </li>
+            </ul>
+            
+             <br> <button id="bouton-retour" class="joli-bouton">Retour</button> 
+        </div>
+        
+        
+        <div id="infos">
+            <div id="info-medium">
+            
+            </div>
+            <br> <button id="bouton-contacter-medium" class="joli-bouton" style="display: none;"></button>
+        </div>
+ 
+         
+        
+        <script>
+            function AfficherMediumDispo(type) {
+                
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_mediums_disponibles',
+                         type:type
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                 $('#medium-dispo').empty();
+                 
+                 var mediums=response.listeMedium;
+                 var listeHTML=$('#medium-dispo');
+                 
+                 if (mediums.length>0){
+                    listeHTML.append("<li>médium         talent</li>");
+                    for(var i= 0;i<mediums.length;i++){
+                        //ajout d'une fonction onclick sur chaque ligne de la liste
+                      //listeHTML.append("<li id='0'>"+mediums[i].nom+"||    ||"+mediums[i].talent+"</li>");
+                      var li=document.createElement("li");
+                      li.id=i;
+                      li.innerHTML=""+mediums[i].nom+"||    ||"+mediums[i].talent+"";
+                      
+                      li.onclick = function () {
+                         AfficherInfo(mediums[this.id]);
+                      }
+                      listeHTML.append(li);
+                    }
+                }
+                
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "menu.html";
+                });
+            }
+            
+            function AfficherInfo(medium){
+               var infoMedium=$('#info-medium');
+               infoMedium.empty();
+               infoMedium.append("<b class='titre'>Informations sur le médium</b>");
+               infoMedium.append('<ul>'); 
+               infoMedium.append("<li>nom : <b>"+medium.nom+" </b></li>");
+               infoMedium.append("<li>Talent:<b> "+medium.talent+"</b></li>");
+               infoMedium.append("<li>Descriptif: <b>"+medium.descriptif+"</b></li>");
+               
+               if(medium.talent=="Astrologue"){
+                    infoMedium.append("<li>Formation: <b>"+medium.formation+"</b></li>");
+                    infoMedium.append("<li>Promotion: <b>"+medium.promotion+"</b></li>");
+                }else if(medium.talent=="Voyant"){
+                    infoMedium.append("<li>Specialité: <b>"+medium.specialite+"</b></li>");
+                }
+                infoMedium.append('<ul>');
+                var button=document.getElementById('bouton-contacter-medium');
+                button.style="";
+                button.value=medium.nom;
+                button.innerHTML='Contacter '+ medium.nom;   
+               
+            }
+            
+             
+            $(document).ready(function(){
+                 console.log('Page chargee => Debut du Script'); 
+                 var type = $('#champ-type').val();
+                 
+                 AfficherMediumDispo(type);
+                 
+                $('#bouton-retour').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Demander Voyance"');
+
+                     window.location = "menu.html";
+
+                });
+                
+                $('#bouton-contacter-medium').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Demander Voyance"');
+                     alert("Demande enregistrée pour "+this.value)
+                     //appeler le service findMediumParNom(nom) et DemanderVoyance(client,medium)
+                     window.location = "menu.html";
+
+                });
+                
+                $('#champ-type').on('change', function () {
+                       var type = $('#champ-type').val();
+                       AfficherMediumDispo(type);
+                });
+      
+               
+        });
+
+
+
+            </script>
+    </body>
+</html>

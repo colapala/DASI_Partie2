@@ -28,9 +28,11 @@ public class AfficherProchainClientAction extends Action{
            Employe emp=(Employe) session.getAttribute("utilisateur");
            Service service= new Service();
            Client c = service.getClientEnAttente(emp);
-           Voyance v=getVoyanceEnAttente(c,emp);
+           
+           
            
            if(c!=null){
+               Voyance v=service.getVoyanceEnAttente(c,emp);
                 request.setAttribute("civilite", c.getCivilite());
                 request.setAttribute("nom", c.getNom());
                 request.setAttribute("prenom", c.getPrenom());

@@ -70,7 +70,9 @@ and open the template in the editor.
 
         </div>
             
-        <br> <button id="bouton-commencer-voyance" class="joli-bouton">Retour</button> 
+        <br> <button id="bouton-commencer-voyance" class="joli-bouton">Commencer Voyance</button> 
+        
+        </div>
         
         <script>
             function AfficherDetailClientActuel() {
@@ -120,7 +122,7 @@ and open the template in the editor.
                  
                  if (voyance.length>0){
                     for(var i= 0;i<voyance.length;i++){
-                      listeHTML.append("<li> Date :  "+voyance[i].date[i]+"</li> <li> Personne :  "+voyance[i].medium+", "+voyance[i].qualification+"</li> <li> Commentaire :  "+voyance[i].commentaire+"</li> ;)
+                      listeHTML.append("<li> Date :  "+voyance[i].date+"</li> <li> Personne :  "+voyance[i].medium+", "+voyance[i].qualification+"</li> <li> Commentaire :  "+voyance[i].commentaire+"</li> ");
                     }
                 } else {
                     listeHTML.append("pas de voyance");
@@ -137,12 +139,13 @@ and open the template in the editor.
             }
             
             
-             function AfficherPredictions() {
+             function AfficherPredictions(type) {
                  $.ajax({
                     url:'./ActionServlet',
                     method:'POST',
                     data:{
-                         todo:'afficher_predictions'
+                         todo:'afficher_predictions',
+                         type:type
                     },
                   dataType:'json'
                   
@@ -164,31 +167,49 @@ and open the template in the editor.
                 });
             }
             
+            function CommencerVoyance() {
+                 $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_CommencerVoyance'
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                    var resultat=response.resultat;
+                    if(resultat=="reussie")
+                        window.location = "menuEmploye.html";
+                    
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "Debut_voyance.html";
+                });
+            }
             
             $(document).ready(function(){
                 console.log('Page chargee => Debut du Script'); 
                 
-                //AfficherPredictions(); 
-                //AfficherHistoriqueConsultation();                
-                //AfficherDetailClientActuel();
+                var type = $('#champ-type').val();
                  
-                $('#bouton-Retour').on('click', function () {
-
+                AfficherPredictions(type); 
+                AfficherHistoriqueConsultation();                
+                AfficherDetailClientActuel();
+                 
+                $('#bouton-commencer-voyance').on('click', function () {
                     // affichage pour debugage dans la console javascript du navigateur
-                    console.log('Click sur le bouton "Retour"');
-
-                    window.location = "menuEmploye.html";
-
+                    console.log('Click sur le bouton "Commencer Voyance"');
+                    CommencerVoyance();
                 });
                 
-                $('#bouton-rafraichir').on('click', function () {
-
-                    // affichage pour debugage dans la console javascript du navigateur
-                    console.log('Click sur le bouton "Rafraichir"');
-
-					//    window.location = "menuEmploye.html";
-					// MANQUE LA POP UP
-
+                
+                 $('#bouton-rafraichir').on('click', function () {
+                       var type = $('#champ-type').val();
+                        AfficherPredictions(type);
                 });
                
         });

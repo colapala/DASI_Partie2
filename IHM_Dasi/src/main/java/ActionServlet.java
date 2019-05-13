@@ -17,6 +17,7 @@ import action.AfficherPredictionsAction;
 import action.AfficherDetailClientActuelAction;
 import action.SInscrireAction;
 import action.AfficherHistoriqueConsultationAction;
+import action.CommencerVoyanceAction;
 import action.SeConnecterAction;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,6 +40,7 @@ import serialisation.AfficherAppelEntrepriseSerialisation;
 import serialisation.AfficherAppelPersonnelSerialisation;
 import serialisation.Serialisation;
 import serialisation.AfficherPredictionsSerialisation;
+import serialisation.CommencerVoyanceSerialisation;
 
 /**
  *
@@ -269,6 +271,23 @@ public class ActionServlet extends HttpServlet {
                         System.out.println("afficherles prédictions ...");
                         Action action=new AfficherPredictionsAction();
                         Serialisation serialisation=new AfficherPredictionsSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(411,"erreur survenue");
+                        }
+                        break;
+                      }
+                       
+                      case "afficher_CommencerVoyance":
+                       {
+                        System.out.println("afficher  sdffdfgrtefgbfg ...");
+                        Action action=new CommencerVoyanceAction();
+                        Serialisation serialisation=new CommencerVoyanceSerialisation();
 
                         boolean actionStatus=action.executer(request);
                         System.out.println("action réussie: "+actionStatus);

@@ -6,10 +6,8 @@
 package action;
 
 import fr.insalyon.dasi.td.jpa.modele.Client;
-import fr.insalyon.dasi.td.jpa.modele.Voyance;
 import fr.insalyon.dasi.td.jpa.modele.Employe;
-import java.util.ArrayList;
-import java.util.Arrays;
+import fr.insalyon.dasi.td.jpa.service.Service;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,16 +25,33 @@ public class AfficherPredictionsAction extends Action {
            try{
            HttpSession session=request.getSession(true);
            Employe emp=(Employe) session.getAttribute("utilisateur");
-           Client c=service.getClientEnAttente(emp);
+           String type=(String)request.getParameter("type");
+           System.out.println(type);
+           
            Service service= new Service();
-		   
-		   int niveau=0;
-		   List<String>  predictions = ​getPredictions​(c, niveau);
-		  
-		   request.setAttribute("amour",prediction.get(0));
-		   request.setAttribute("sante",prediction.get(1));
-		   request.setAttribute("travail",prediction.get(2));
+           Client c=service.getClientEnAttente(emp);
+           
+           if(c!=null){
+                List<String> predictions=null;
+                switch(type){
+                    case "Mauvais":
+                        predictions=service.getPredictions(c,0);
+                        break;
+                    case "Moyen":
+                        predictions=service.getPredictions(c,1);
+                        break;
+                    case "Bon":
+                        predictions=service.getPredictions(c,2);
+                        break;
+                    case "Parfait":
+                        predictions=service.getPredictions(c,3);
+                        break;
 
+                }  
+                request.setAttribute("amour",predictions.get(0));
+                request.setAttribute("sante",predictions.get(1));
+                request.setAttribute("travail",predictions.get(2));
+           }
            
            }catch (Exception e){
                execute=false;

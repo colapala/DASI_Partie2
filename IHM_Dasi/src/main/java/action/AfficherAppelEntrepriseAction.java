@@ -34,12 +34,8 @@ public class AfficherAppelEntrepriseAction extends Action {
            Service service= new Service();
            
            Map<Medium,Integer> top=service.getClassementMedium();
-			Medium[] tableauMedium = hashMap.keySet().toArray();
-			int[] tableauNombre = hashMap.values().toArray();
-
-           request.setAttribute("listeMedium", tableauMedium);
-           request.setAttribute("listeAppel", tableauNombre);
            
+           request.setAttribute("map", top);
            
            }catch (Exception e){
                execute=false;

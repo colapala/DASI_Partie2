@@ -8,9 +8,123 @@ and open the template in the editor.
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Librairie Javascript: jQuery (v3.3.1) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     </head>
     <body>
-        <div>Menu de l'employé</div>
+        
+        <div>
+            <b>Top 3 de vos médiums : </b>
+            
+                <ul id="top-mediums">   
+                    <li> 1. </li>
+                    <li> 2. </li>
+                    <li> 3.</li>
+                </ul> 
+        </div>
+            
+        <br> <button id="bouton-Tableau-bord" class="joli-bouton">Tableau de bord</button> 
+        
+        <div>
+            <br />
+            <b>Prochain client : </b>
+            
+                <ul id="prochain-client">   
+                    <li> Civilité :  </li>
+                    <li> Nom :  </li>
+                    <li> Prénom : </li>
+                    <li> Médium : </li>
+                    
+                </ul> 
+
+        </div>
+            
+        <br> <button id="bouton-Plus" class="joli-bouton">Plus</button> 
+        
+        <script>
+            function AfficherTopMediums() {
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_top_medium'
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                 $('#top-mediums').empty();
+                
+                var topMedium=$('#top-mediums');
+                  topMedium.append("<li> 1. "+response.medium1+ "</li> <li> 2. "+response.medium2+ "</li> <li> 3.  " +response.medium3+" </li>");
+                 
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "index.html";
+                });
+            }
+            
+            function AfficherProchainClient() {
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'afficher_prochain_client'
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                $('#prochain-client').empty();
+                
+                var prochainClient=$('#prochain-client');
+                 prochainClient.append("<li> Civilité : "+response.civilite+ "</li> <li> Nom :  "+response.nom+ "</li> <li> Prénom :   " +response.prenom+" </li> <li> Médium : "+response.medium+ "</li>");
+  
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    // Message d'erreur dans la div #message :
+                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
+                    window.location = "index.html";
+                });
+            }
+            
+            $(document).ready(function(){
+                console.log('Page chargee => Debut du Script'); 
+                
+                 
+                 AfficherProchainClient();
+                 AfficherTopMediums();
+                 
+                 
+                 
+                $('#bouton-Tableau-bord').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Tableau de Bord"');
+
+                    window.location = "Tableau_bord.html";
+
+                });
+                
+                $('#bouton-Plus').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Tableau de Bord"');
+
+                    window.location = "Debut_voyance.html";
+
+                });
+               
+        });
+
+
+
+            </script>
     </body>
 </html>

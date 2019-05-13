@@ -6,7 +6,9 @@
 package action;
 
 import fr.insalyon.dasi.td.jpa.modele.Client;
+import fr.insalyon.dasi.td.jpa.modele.Employe;
 import fr.insalyon.dasi.td.jpa.modele.Voyance;
+import fr.insalyon.dasi.td.jpa.service.Service;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,10 +26,14 @@ public class AfficherHistoriqueConsultationAction extends Action {
            
            try{
            HttpSession session=request.getSession(true);
-           Client c=(Client) session.getAttribute("utilisateur");
+           Employe emp=(Employe) session.getAttribute("utilisateur");
            
+           Service service=new Service();
+           Client c=service.getClientEnAttente(emp);
+           if(c!=null){
            List<Voyance> listeVoyance=c.getHistorique();
            request.setAttribute("listeVoyance",listeVoyance);
+           }
            
            //revoir la mise à jour de l'historique quand on demande une voyance ! pour que celle en cours soit affichée ici ou pas ?
            

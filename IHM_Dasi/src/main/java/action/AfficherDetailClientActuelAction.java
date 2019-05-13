@@ -8,6 +8,7 @@ package action;
 import fr.insalyon.dasi.td.jpa.modele.Client;
 import fr.insalyon.dasi.td.jpa.modele.Voyance;
 import fr.insalyon.dasi.td.jpa.modele.Employe;
+import fr.insalyon.dasi.td.jpa.service.Service;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,7 +29,7 @@ public class AfficherDetailClientActuelAction extends Action {
            Employe emp=(Employe) session.getAttribute("utilisateur");
            Service service= new Service();
 		   Client c=service.getClientEnAttente(emp);
-		   
+           if(c!=null){        
            request.setAttribute("civilite", c.getCivilite());
            request.setAttribute("nom", c.getNom());
            request.setAttribute("prenom", c.getPrenom());
@@ -40,7 +41,7 @@ public class AfficherDetailClientActuelAction extends Action {
            request.setAttribute("mail", c.getMail());
            request.setAttribute("adresse", c.getAdresse());
            request.setAttribute("tel", c.getTel());
-           
+           }
            }catch (Exception e){
                execute=false;
            } 
