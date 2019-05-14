@@ -169,7 +169,10 @@ and open the template in the editor.
             }
             
             function CommencerVoyance() {
-                 $.ajax({
+                   var type = $('#champ-type').val();
+                   AfficherPredictions(type);
+                   
+                   $.ajax({
                     url:'./ActionServlet',
                     method:'POST',
                     data:{
@@ -192,12 +195,39 @@ and open the template in the editor.
                 });
             }
             
+             function FinirVoyance(commentaire) {
+               //var commentaire = $('#champ-commentaire').val();
+                 
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'finir_voyance',
+                         commentaire:commentaire
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                 var resultat=response.resultat;
+                 //alert(resultat);
+                 if(resultat=="reussie")
+                     window.location("index.html");
+
+                    
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                });
+            }
+            
             $(document).ready(function(){
                 console.log('Page chargee => Debut du Script'); 
                 
                 var type = $('#champ-type').val();
                 
-                AfficherPredictions(type);
+                //AfficherPredictions(type);
                 AfficherHistoriqueConsultation();                
                 AfficherDetailClientActuel();
                  
@@ -205,9 +235,6 @@ and open the template in the editor.
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Commencer Voyance"');
                     CommencerVoyance();
-                    
-                    var type = $('#champ-type').val();
-                    //AfficherPredictions(type);
                     
                     var button=document.getElementById('bouton-commencer-voyance');
                     button.style="display:none;";
@@ -222,11 +249,15 @@ and open the template in the editor.
                         AfficherPredictions(type);
                 });
                 
+                 $('#champ-type').on('change', function () {
+                       var type = $('#champ-type').val();
+                        AfficherPredictions(type);
+                });
+                
                 $('#bouton-finir-voyance').on('click', function () {
-                    var w=window.open("FinirVoyance.html","popup","width=400,height=200");
-                    //var commentaire = prompt("commentaire :");
-                    //alert(commentaire);
-                    window.location("menuEmploye.html");
+                    //var w=window.open("FinirVoyance.html","popup","width=400,height=200");
+                    var commentaire = prompt("Finir voyance \n commentaire :");
+                    FinirVoyance(commentaire);
                 });
                
         });
