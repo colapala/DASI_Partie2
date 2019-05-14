@@ -71,6 +71,7 @@ and open the template in the editor.
         </div>
             
         <br> <button id="bouton-commencer-voyance" class="joli-bouton">Commencer Voyance</button> 
+         <br> <button id="bouton-finir-voyance" class="joli-bouton" style="display:none;">Finir Voyance</button> 
         
         </div>
         
@@ -179,7 +180,7 @@ and open the template in the editor.
                 }).done(function(response){ 
                     var resultat=response.resultat;
                     if(resultat=="reussie")
-                        window.location = "menuEmploye.html";
+                        alert("début de la voyance");
                     
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
@@ -195,8 +196,8 @@ and open the template in the editor.
                 console.log('Page chargee => Debut du Script'); 
                 
                 var type = $('#champ-type').val();
-                 
-                AfficherPredictions(type); 
+                
+                AfficherPredictions(type);
                 AfficherHistoriqueConsultation();                
                 AfficherDetailClientActuel();
                  
@@ -204,12 +205,28 @@ and open the template in the editor.
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Commencer Voyance"');
                     CommencerVoyance();
+                    
+                    var type = $('#champ-type').val();
+                    //AfficherPredictions(type);
+                    
+                    var button=document.getElementById('bouton-commencer-voyance');
+                    button.style="display:none;";
+                    
+                    var button2=document.getElementById('bouton-finir-voyance');
+                    button2.style="";
                 });
                 
                 
                  $('#bouton-rafraichir').on('click', function () {
                        var type = $('#champ-type').val();
                         AfficherPredictions(type);
+                });
+                
+                $('#bouton-finir-voyance').on('click', function () {
+                    var w=window.open("FinirVoyance.html","popup","width=400,height=200");
+                    //var commentaire = prompt("commentaire :");
+                    //alert(commentaire);
+                    window.location("menuEmploye.html");
                 });
                
         });

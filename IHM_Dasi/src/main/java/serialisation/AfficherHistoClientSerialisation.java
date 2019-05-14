@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import fr.insalyon.dasi.td.jpa.modele.Voyance;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,12 @@ public class AfficherHistoClientSerialisation extends Serialisation {
             
         for (Voyance v :listeVoyance) {
             JsonObject jsonVoyance=new JsonObject();
-            jsonVoyance.addProperty("date",v.getDateVoyance().toString());
+            
+            //transformation de la date en string
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            String date= sdf.format(v.getDateVoyance());
+
+            jsonVoyance.addProperty("date",date);
             jsonVoyance.addProperty("medium",v.getMedium().getNom());
             jsonVoyance.addProperty("status",v.getStatus());
             jsonListe.add(jsonVoyance);

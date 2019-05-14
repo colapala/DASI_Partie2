@@ -18,6 +18,8 @@ import action.AfficherDetailClientActuelAction;
 import action.SInscrireAction;
 import action.AfficherHistoriqueConsultationAction;
 import action.CommencerVoyanceAction;
+import action.DemanderVoyanceAction;
+import action.FinirVoyanceAction;
 import action.SeConnecterAction;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -41,6 +43,8 @@ import serialisation.AfficherAppelPersonnelSerialisation;
 import serialisation.Serialisation;
 import serialisation.AfficherPredictionsSerialisation;
 import serialisation.CommencerVoyanceSerialisation;
+import serialisation.DemanderVoyanceSerialisation;
+import serialisation.FinirVoyanceSerialisation;
 
 /**
  *
@@ -296,6 +300,40 @@ public class ActionServlet extends HttpServlet {
                             System.out.println("serialisation en cours");
                         }else{
                             response.sendError(411,"erreur survenue");
+                        }
+                        break;
+                      }
+                       
+                       case "finir_voyance":
+                       {
+                        System.out.println("afficher  finir voyance...");
+                        Action action=new FinirVoyanceAction();
+                        Serialisation serialisation=new FinirVoyanceSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(412,"erreur survenue");
+                        }
+                        break;
+                      }
+                       
+                        case "demander_voyance":
+                       {
+                        System.out.println("afficher  demander voyance ...");
+                        Action action=new DemanderVoyanceAction();
+                        Serialisation serialisation=new DemanderVoyanceSerialisation();
+
+                        boolean actionStatus=action.executer(request);
+                        System.out.println("action réussie: "+actionStatus);
+                        if (actionStatus){
+                            serialisation.serialiser(request, response);
+                            System.out.println("serialisation en cours");
+                        }else{
+                            response.sendError(412,"erreur survenue");
                         }
                         break;
                       }

@@ -7,6 +7,7 @@ package action;
 
 import fr.insalyon.dasi.td.jpa.modele.Client;
 import fr.insalyon.dasi.td.jpa.modele.Employe;
+import fr.insalyon.dasi.td.jpa.modele.Medium;
 import fr.insalyon.dasi.td.jpa.modele.Voyance;
 import fr.insalyon.dasi.td.jpa.service.Service;
 import javax.servlet.http.HttpServletRequest;
@@ -14,22 +15,23 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author cjourdan
+ * @author colap
  */
-public class CommencerVoyanceAction extends Action {
+public class DemanderVoyanceAction extends Action {
      @Override
      
     public boolean executer(HttpServletRequest request){
            boolean execute=true; 
-           System.out.println("action afficher prediction en cours");
+           System.out.println("action demander voyance en cours");
            try{
            HttpSession session=request.getSession(true);
-           Employe emp=(Employe) session.getAttribute("utilisateur");
+           Client c=(Client) session.getAttribute("utilisateur");
+           String nom=request.getParameter("nom");
+           System.out.println(nom);
            
            Service service=new Service();
-           Client c=service.getClientEnAttente(emp);
-           Voyance v=service.getVoyanceEnAttente(c,emp);
-           service.commencerVoyance(v);
+           Medium m=service.findMediumParNom(nom);
+           service.demanderVoyance(c, m);
            
            request.setAttribute("resultat","reussie");
            

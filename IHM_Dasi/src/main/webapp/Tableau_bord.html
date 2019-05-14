@@ -49,6 +49,8 @@ and open the template in the editor.
         </div>
             
         <br> <button id="bouton-Retour" class="joli-bouton">Retour</button> 
+        <br> <button id="bouton-Entreprise" class="joli-bouton">Entreprise</button> 
+        <br> <button id="bouton-Personnel" class="joli-bouton">Personnel</button> 
         
         <script>
             function AfficherTopEmployes() {
@@ -98,6 +100,8 @@ and open the template in the editor.
                      liste.append("<li>"+listeEntr[i].medium+"||    ||"+listeEntr[i].nbAppel+"</li>");
                     }
                     
+                 AfficherTopEmployes();  
+                     
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
                     // Popup avec message d'erreur :
@@ -129,7 +133,9 @@ and open the template in the editor.
                         //ajout d'une fonction onclick sur chaque ligne de la liste
                      listePerso.append("<li>"+listeAppel[j].medium+"||    ||"+listeAppel[j].nbAppel+"</li>");
                     }
-  
+                    
+                 AfficherTopEmployes(); 
+                     
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
                     // Popup avec message d'erreur :
@@ -142,10 +148,8 @@ and open the template in the editor.
             
             
             $(document).ready(function(){
-                console.log('Page chargee => Debut du Script');  
-                AfficherTopEmployes();    
-               // AfficherAppelEntreprise();
-                //AfficherAppelPersonnel();          
+                console.log('Page chargee => Debut du Script');           
+                AfficherAppelPersonnel();
             
                 $('#bouton-Retour').on('click', function () {
 
@@ -155,7 +159,23 @@ and open the template in the editor.
                     window.location = "menuEmploye.html";
 
                 });
-               
+                
+                 $('#bouton-Entreprise').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Retour"');
+                    AfficherAppelEntreprise();
+
+                });
+                
+                 $('#bouton-Personnel').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Retour"');
+                    AfficherAppelPersonnel();
+
+                });
+                
         });
 
 

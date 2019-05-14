@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author cjourdan
+ * @author colap
  */
-public class CommencerVoyanceSerialisation extends Serialisation{
+public class DemanderVoyanceSerialisation extends Serialisation{
     @Override 
     public void serialiser(HttpServletRequest request, HttpServletResponse response)throws IOException{
         JsonObject container=new JsonObject();

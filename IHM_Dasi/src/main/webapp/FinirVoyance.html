@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>popup</title>
+        <meta charset="UTF-8">
+        <!-- Librairie Javascript: jQuery (v3.3.1) -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    </head>
+    <body>
+        
+        <h1>Fin de voyance</h1>
+        
+        Commentaire :<input type="text" id="champ-commentaire" placeholder="commentaire" /><br>
+        
+        <br> <button id="bouton-valider" class="joli-bouton">valider</button>
+        
+    <script>
+        
+         function FinirVoyance() {
+               var commentaire = $('#champ-commentaire').val();
+                 
+                $.ajax({
+                    url:'./ActionServlet',
+                    method:'POST',
+                    data:{
+                         todo:'finir_voyance',
+                         commentaire:commentaire
+                    },
+                  dataType:'json'
+                  
+                }).done(function(response){ 
+                // console.log(data); // Afficher dans la console JavaScript
+                 var resultat=response.resultat;
+                 if(resultat=="reussie")
+                     window.close();
+
+                    
+                }).fail( function (error) { // Appel KO => erreur a gérer
+                    
+                    // Popup avec message d'erreur :
+                    alert('une erreur est survenue');
+                    //window.close();
+                });
+            }
+            
+        $(document).ready(function(){
+            
+            $('#bouton-valider').on('click', function () {
+                 // affichage pour debugage dans la console javascript du navigateur
+                console.log('Click sur le bouton "valider"');
+                FinirVoyance();
+                });
+            
+        });
+        
+    </script>
+    
+    </body>
+
+</html>

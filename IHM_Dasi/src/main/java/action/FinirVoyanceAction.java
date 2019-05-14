@@ -14,22 +14,24 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author cjourdan
+ * @author colap
  */
-public class CommencerVoyanceAction extends Action {
+public class FinirVoyanceAction extends Action {
      @Override
      
     public boolean executer(HttpServletRequest request){
            boolean execute=true; 
-           System.out.println("action afficher prediction en cours");
+           System.out.println("action fin voyance en cours");
            try{
            HttpSession session=request.getSession(true);
            Employe emp=(Employe) session.getAttribute("utilisateur");
+           String commentaire=request.getParameter("commentaire");
            
            Service service=new Service();
            Client c=service.getClientEnAttente(emp);
            Voyance v=service.getVoyanceEnAttente(c,emp);
-           service.commencerVoyance(v);
+           v.setDescription(commentaire);
+           service.finirVoyance(v);
            
            request.setAttribute("resultat","reussie");
            
