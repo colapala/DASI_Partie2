@@ -18,14 +18,19 @@ and open the template in the editor.
             select{font-size: 18px;}
             #mediums{float:left;width:50%; height:80%;text-align: center;margin-top: 4%}
             #infos{float:right;width:50%; height:80%;right:50%;text-align: center;margin-top: 4%}
-            button.joli-bouton{font-size: 18px;}
+            button.joli-bouton{font-size: 18px;padding: 3px 10px; border-radius: 5px; border-width: 3px; cursor: pointer; }
             #bouton-contacter-medium{float:right;}
             b.titre{font-size: 32px;}
+            #bouton-deconnexion{float:right;margin-right: 20px;}
         </style>
 
     </head>
     <body>
         
+        <header>
+            <button id="bouton-deconnexion" class="joli-bouton">Déconnexion</button><br><br>
+            <hr>
+        </header>
      
         <div id="mediums"><b class="titre">Mediums Disponibles</b>
             <br><SELECT id="champ-type" size="1">
@@ -47,7 +52,7 @@ and open the template in the editor.
             <div id="info-medium">
             
             </div>
-            <br> <button id="bouton-contacter-medium" class="joli-bouton" style="display: none;"></button>
+            <button id="bouton-contacter-medium" class="joli-bouton" style="display: none;"></button>
         </div>
  
          
@@ -91,8 +96,6 @@ and open the template in the editor.
                     
                     // Popup avec message d'erreur :
                     alert('une erreur est survenue');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "menu.html";
                 });
             }
@@ -154,20 +157,14 @@ and open the template in the editor.
                  AfficherMediumDispo(type);
                  
                 $('#bouton-retour').on('click', function () {
-
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Demander Voyance"');
-
                      window.location = "menu.html";
-
                 });
                 
                 $('#bouton-contacter-medium').on('click', function () {
-
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Demander Voyance"');
-                     //alert("Demande enregistrée pour "+this.value)
-                     //appeler le service findMediumParNom(nom) et DemanderVoyance(client,medium)
                      DemanderVoyance(this.value);
 
                 });
@@ -177,6 +174,12 @@ and open the template in the editor.
                        AfficherMediumDispo(type);
                 });
       
+                $('#bouton-deconnexion').on('click', function () {
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Déconnexion"');
+                   window.location = "index.html";
+
+                });
                
         });
 

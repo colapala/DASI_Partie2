@@ -10,15 +10,29 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <!-- Librairie Javascript: jQuery (v3.3.1) -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        
+        <style>
+             #bouton-deconnexion{float:right;margin-right: 20px;}
+             button.joli-bouton {font-size:24px;padding: 3px 10px; border-radius: 5px; border-width: 3px; cursor: pointer; }
+             #info-client{float:left;width:50%; height:80%;text-align: center;margin-top: 4%;}
+             #historique{float:right;width:50%; height:80%;right:50%;text-align: center;margin-top: 4%;}
+             li{font-size: 24px;text-align: left;margin-left: 20%;margin-right:20%;}
+             b.titre{font-size: 26px;}
+             select{font-size:18px;}
+        </style>
+        
     </head>
     <body>
         
-        <div>
-            <b>INFORMATIONS CLIENT  </b>
-			<br />
-			<br />
+        <header>
+            <button id="bouton-deconnexion" class="joli-bouton">Déconnexion</button><br><br>
+            <hr>
+        </header>
+        
+        <div id="info-client">
+            <h1>INFORMATIONS CLIENT  </h1>
             
-            <div><b>Astrologique</b>
+            <div><b class="titre">Astrologique</b>
                 <ul id="astro-client-actuel">   
                     <li> Signe du Zodiaque: </li>
                     <li> Chinois: </li>
@@ -27,7 +41,7 @@ and open the template in the editor.
                 </ul> 
             </div> 
             
-            <div><b>Personnelle</b>
+            <div><b class="titre">Personnelle</b>
                  <ul id="info-client-actuel">
 					<li> Civilité:  </li> 
 					<li> Nom:  </li> 
@@ -37,42 +51,37 @@ and open the template in the editor.
                     <li> Adresse: </li>
                     <li> Mail:</li>
                 </ul>
-            </div>       
+            </div>  
+                        
+         <button id="bouton-commencer-voyance" class="joli-bouton">Commencer Voyance</button> 
+         <button id="bouton-finir-voyance" class="joli-bouton" style="display:none;">Finir Voyance</button> 
+       </div>
         
-        <div>
-            <br />
-            <b>PREDICTIONS :  </b>
-            <br />
-            <br />
-            <br><SELECT id="champ-type" size="1">
-                <OPTION>Mauvais
-                <OPTION>Moyen
-                <OPTION>Bon
-                <OPTION>Parfait
-            </SELECT><br>
-			<ul id="predictions">   
-				<li> Amour: </li>
-				<li> Santé: </li>
-				<li> Travail: </li>
+        
+        <div id="historique">
+            <h1>HISTORIQUE :</h1>
+            
+            <ul id="historique-consultations">   
             </ul> 
             
-            <br> <button id="bouton-rafraichir" class="joli-bouton">Rafraîchir</button> 
-        </div>
-        
-        <div>
-            <br />
-            <b>HISTORIQUE :  </b>
-            <br />
-            <br />
-            
-			<ul id="historique-consultations">   
-            </ul> 
+            <div id="predic" style="display:none;">
+                <h1>PREDICTIONS :  </h1>
 
-        </div>
+                <br><SELECT id="champ-type" size="1">
+                    <OPTION>Mauvais
+                    <OPTION>Moyen
+                    <OPTION>Bon
+                    <OPTION>Parfait
+                </SELECT><br>
+                   <ul id="predictions">   
+                       <li> Amour: </li>
+                       <li> Santé: </li>
+                       <li> Travail: </li>
+                  </ul> 
+
+                 <button id="bouton-rafraichir" class="joli-bouton">Rafraîchir</button> 
+            </div>
             
-        <br> <button id="bouton-commencer-voyance" class="joli-bouton">Commencer Voyance</button> 
-         <br> <button id="bouton-finir-voyance" class="joli-bouton" style="display:none;">Finir Voyance</button> 
-        
         </div>
         
         <script>
@@ -99,8 +108,6 @@ and open the template in the editor.
                     
                     // Popup avec message d'erreur :
                     alert('une erreur est survenue');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "menuEmploye.html";
                 });
             }
@@ -133,9 +140,7 @@ and open the template in the editor.
                     
                     // Popup avec message d'erreur :
                     alert('une erreur est survenue');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
-                    window.location = "index.html";
+                    window.location = "menuEmploye.html";
                 });
             }
             
@@ -162,16 +167,11 @@ and open the template in the editor.
                     
                     // Popup avec message d'erreur :
                     alert('une erreur est survenue');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "menuEmploye.html";
                 });
             }
             
             function CommencerVoyance() {
-                   var type = $('#champ-type').val();
-                   AfficherPredictions(type);
-                   
                    $.ajax({
                     url:'./ActionServlet',
                     method:'POST',
@@ -185,13 +185,18 @@ and open the template in the editor.
                     if(resultat=="reussie")
                         alert("début de la voyance");
                     
+                    var div=document.getElementById("predic");
+                    div.style="";
+                    
+                    var type = $('#champ-type').val();
+                    AfficherPredictions(type);
+                   
+                    
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
                     // Popup avec message d'erreur :
                     alert('une erreur est survenue');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
-                    window.location = "Debut_voyance.html";
+                    window.location = "menuEmploye.html";
                 });
             }
             
@@ -211,10 +216,11 @@ and open the template in the editor.
                 // console.log(data); // Afficher dans la console JavaScript
                  var resultat=response.resultat;
                  //alert(resultat);
-                 if(resultat=="reussie")
-                     window.location("index.html");
-
-                    
+                 if(resultat=="reussie"){
+                     alert('voyance terminée');
+                 }
+                window.location = "menuEmploye.html";
+    
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
                     // Popup avec message d'erreur :
@@ -258,6 +264,13 @@ and open the template in the editor.
                     //var w=window.open("FinirVoyance.html","popup","width=400,height=200");
                     var commentaire = prompt("Finir voyance \n commentaire :");
                     FinirVoyance(commentaire);
+                });
+                
+                $('#bouton-deconnexion').on('click', function () {
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Déconnexion"');
+                    window.location = "index.html";
+
                 });
                
         });

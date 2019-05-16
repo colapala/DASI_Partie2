@@ -11,18 +11,32 @@ and open the template in the editor.
 
         <!-- Librairie Javascript: jQuery (v3.3.1) -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        
+        <style>
+            #bouton-deconnexion{float:right;margin-right: 20px;}
+            button.joli-bouton {font-size:24px;padding: 3px 10px; border-radius: 5px; border-width: 3px; cursor: pointer; }
+            #infos{float:left;width:50%; height:80%;text-align: center;margin-top: 4%;}
+            #histo{float:right;width:50%; height:80%;right:50%;text-align: center;margin-top: 4%;}
+            li{font-size: 24px;text-align: left;margin-left: 20%;margin-right:20%;}
+            b.titre{font-size: 26px;}
+        </style>
 
     </head>
     <body>
         
-        <div id="utilisateur">
-            Bonjour,
-        </div>
-        <br>
-        <div>
-            <b>Vos informations</b>
+        <header>
+            <button id="bouton-deconnexion" class="joli-bouton">Déconnexion</button><br>
+             <div id="utilisateur">
+                Bonjour,
+             </div>
+            <br>
+            <hr>
+        </header>
+        
+        <div id="infos">
+            <h1>Vos informations</h1>
             
-            <div><b>Astrologique</b>
+            <div><b class="titre">Astrologique</b>
                 <ul id="astro-client">   
                     <li> Signe du Zodiaque: </li>
                     <li> Signe Chinois: </li>
@@ -31,7 +45,7 @@ and open the template in the editor.
                 </ul> 
             </div> 
             
-            <div><b>Personnelle</b>
+            <div><b class="titre">Personnelle</b>
                  <ul id="info-client"> 
                     <li> Date de naissance: </li>
                     <li>Numéro de téléphone: </li>
@@ -39,11 +53,12 @@ and open the template in the editor.
                     <li> email:</li>
                 </ul>
             </div> 
+            
+             <br> <button id="bouton-Demander_voyance" class="joli-bouton">Demander une voyance</button> 
         </div>
         
-        <br> <button id="bouton-Demander_voyance" class="joli-bouton">Demander une voyance</button> 
         
-        <div> <b> Historique</b>
+        <div id="histo"> <h1> Historique</h1>
             <ul id="historique">
                 <Li>rien à afficher</Li>
             </ul>
@@ -77,8 +92,6 @@ and open the template in the editor.
                     
                     // Popup avec message d'erreur :
                     alert('une erreur est survenue');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "index.html";
                 });
             }
@@ -109,11 +122,8 @@ and open the template in the editor.
                 }
                 
                 }).fail( function (error) { // Appel KO => erreur a gérer
-                    
                     // Popup avec message d'erreur :
                     alert('une erreur est survenue');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "index.html";
                 });
             }
@@ -129,6 +139,15 @@ and open the template in the editor.
                     console.log('Click sur le bouton "Demander Voyance"');
 
                      window.location = "Demande_voyance.html";
+
+                });
+                
+                $('#bouton-deconnexion').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Déconnexion"');
+
+                    window.location = "index.html";
 
                 });
                

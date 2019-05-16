@@ -9,38 +9,51 @@
 
         <style>
             /* Feuille de Style CSS (dans la page) */
-            #message { margin: 25px; padding: 10px; border-radius: 10px; border: 2px solid black; }
-            button.joli-bouton { padding: 3px 10px; border-radius: 5px; border-width: 3px; cursor: pointer; }
+            button.joli-bouton {font-size: 18px;padding: 3px 10px; border-radius: 5px; border-width: 3px; cursor: pointer; }
+            #description{font-size:24px;float:left;width:50%; height:80%;text-align: left;margin-top: 4%;}
+            #infos{font-size:24px;float:right;width:50%; height:80%;right:50%;text-align: left;margin-top: 4%;}
+            h1{text-align: center;}
+            p{margin-left:40px; margin-right:40px;}
         </style>
     </head>
     <body>
-
-        <h1>PositIF</h1>
-
-        <div>
-            Identifiant : <input type="text" id="champ-login" name="login" placeholder="votre identifiant" /><br>
-            Mot de passe : <input type="password" id="champ-password" name="password" /><br>
-            <button id="bouton-connexion" class="joli-bouton">Se Connecter</button>   
+        <div id="description">
+            <h1>PositIF</h1>
+            
+            <p>POSIT’IF est un service permettant de contacter différents voyants. Toute personne
+                adhérant à ce service peut demander une voyance. Ces dernières sont réalisées par des
+                employés de l’entreprise. Le client sélectionne un voyant de son choix parmis ceux proposés
+                et demande à réaliser la voyance. L’employé ayant réalisé le moins de voyance et pouvant
+                interpréter ce voyant est sélectionné. Une fois que l’employé accepte, un message est
+                envoyé au client pour que celui-ci appelle. Une fois la voyance réalisée, l’employé peut
+                mettre un commentaire, et la voyance est enregistrée dans l’historique du client.
+            </p>
         </div>
 
-        <div id="message">...</div>
-        
-        <div>
-            Nom : <input type="text" id="champ-nom" name="nom" placeholder="Nom" /><br>
-            Prénom : <input type="text" id="champ-prenom" name="prenom" placeholder="Prénom" /><br>
-            Civilité :
-            <SELECT name="nom" id="champ-civilite" size="1">
-                <OPTION>madame
-                <OPTION>monsieur
-            </SELECT><br>
-            Date de naissance : <input type="text" id="champ-date" name="date" placeholder="jj/mm/aaaa" /><br>
-            Téléphone : <input type="text" id="champ-tel" name="tel" placeholder="xx-xx-xx-xx-xx" /><br>
-            Adresse postale : <input type="text" id="champ-adresse" name="adresse" placeholder="adresse" /><br>
-            Adresse mail : <input type="text" id="champ-mail" name="mail" placeholder="mail" /><br>
-            Mot de passe : <input type="password" id="champ-password2" name="password" /><br>
-            Confirmation : <input type="password" id="champ-confirm" name="confirm" /><br>
-            <button id="bouton-inscription" class="joli-bouton">S'inscrire</button>   
-        </div>
+        <div id="infos">
+            <div>
+                Identifiant : <input type="text" id="champ-login" name="login" placeholder="votre identifiant" /><br>
+                Mot de passe : <input type="password" id="champ-password" name="password" /><br>
+                <button id="bouton-connexion" class="joli-bouton">Se Connecter</button>   
+            </div>
+            <br>
+            <div>
+                Nom : <input type="text" id="champ-nom" name="nom" placeholder="Nom" /><br>
+                Prénom : <input type="text" id="champ-prenom" name="prenom" placeholder="Prénom" /><br>
+                Civilité :
+                <SELECT name="nom" id="champ-civilite" size="1">
+                    <OPTION>madame
+                    <OPTION>monsieur
+                </SELECT><br>
+                Date de naissance : <input type="text" id="champ-date" name="date" placeholder="jj/mm/aaaa" /><br>
+                Téléphone : <input type="text" id="champ-tel" name="tel" placeholder="xx-xx-xx-xx-xx" /><br>
+                Adresse postale : <input type="text" id="champ-adresse" name="adresse" placeholder="adresse" /><br>
+                Adresse mail : <input type="text" id="champ-mail" name="mail" placeholder="mail" /><br>
+                Mot de passe : <input type="password" id="champ-password2" name="password" /><br>
+                Confirmation : <input type="password" id="champ-confirm" name="confirm" /><br>
+                <button id="bouton-inscription" class="joli-bouton">S'inscrire</button>   
+            </div>
+         </div>
         
         <script>
 
@@ -48,9 +61,6 @@
 
                 var champLogin = $('#champ-login').val();
                 var champPassword = $('#champ-password').val();
-
-                // Message d'information dans la div #message :
-                $('#message').html('Connexion en cours...');
 
                 // Requête AJAX
                 $.ajax({
@@ -66,7 +76,6 @@
 
                 }).done( function (response) {  // Appel OK => "response" contient le resultat JSON
                      var utilisateur=response.utilisateur;
-                     $('#message').html(utilisateur);
                      
                      if (utilisateur=="client"){
                          //si connexion ok, aller sur la page suivante :
@@ -74,15 +83,13 @@
                      }else if (utilisateur=="employe"){
                         window.location = "menuEmploye.html";
                      }else{
-                        //si connexion pas ok afficher un texte dans la div #message :
-                        $('#message').html('Echec de la connexion'); 
+                         alert('connexion échouée');
                     }
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
                     // Popup avec message d'erreur :
                     alert('connexion échouée');
                     // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "index.html";
                 });
             }
@@ -99,8 +106,6 @@
                 var password = $('#champ-password2').val();
                 var confirm = $('#champ-confirm').val();
 
-                // Message d'information dans la div #message :
-                $('#message').html('inscription en cours...');
 
                 // Requête AJAX
                 $.ajax({
@@ -123,21 +128,17 @@
 
                 }).done( function (response) {  // Appel OK => "response" contient le resultat JSON
                      var reussie=response.reussie;
-                     $('#message').html(reussie);
                      
                      if (reussie==true){
                          //si connexion ok, aller sur la page suivante :
                         window.location = "menu.html";
                      }else{
-                        //si connexion pas ok afficher un texte dans la div #message :
-                        $('#message').html('Echec de l\'inscription'); 
+                         alert('inscription échouée');
                     }
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
                     // Popup avec message d'erreur :
                     alert('inscription échouée');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "index.html";
                 });
             }
@@ -148,22 +149,16 @@
 
                 // ajout d'un "handler" sur le clic du bouton de connexion
                 $('#bouton-connexion').on('click', function () {
-
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Se Connecter"');
-
                     // appel de la fonction connexion
                     connexion();
-
                 });
                  $('#bouton-inscription').on('click', function () {
-
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "S\'inscrire"');
-
                     // appel de la fonction connexion
                     inscription();
-
                 });
 
             });

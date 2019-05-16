@@ -10,37 +10,47 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <!-- Librairie Javascript: jQuery (v3.3.1) -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        
+        <style>
+            /* Feuille de Style CSS (dans la page) */
+            #top{float:left;width:50%; height:80%;text-align: center;margin-top: 4%;}
+            #client{float:right;width:50%; height:80%;right:50%;text-align: center;margin-top: 4%;}
+            li{font-size: 24px;text-align: left;margin-left: 20%;margin-right:20%;}
+            #bouton-deconnexion{float:right;margin-right: 20px;}
+            b.titre{font-size: 32px;}
+            button.joli-bouton{font-size: 18px; padding: 3px 10px; border-radius: 5px; border-width: 3px; cursor: pointer; }
+        </style>
+        
     </head>
     <body>
+        <header>
+            <button id="bouton-deconnexion" class="joli-bouton">Déconnexion</button><br><br>
+            <hr>
+        </header>
         
-        <div>
-            <b>Top 3 de vos médiums : </b>
+        <div id="top">
+            <b class="titre">Top 3 de vos médiums : </b>
             
                 <ul id="top-mediums">   
                     <li> 1. </li>
                     <li> 2. </li>
                     <li> 3.</li>
                 </ul> 
+            <br> <button id="bouton-Tableau-bord" class="joli-bouton">Tableau de bord</button> 
         </div>
-            
-        <br> <button id="bouton-Tableau-bord" class="joli-bouton">Tableau de bord</button> 
         
-        <div>
-            <br />
-            <b>Prochain client : </b>
+        <div id="client">
+            <b class="titre">Prochain client : </b>
             
                 <ul id="prochain-client">   
-                    <li> Civilité :  </li>
-                    <li> Nom :  </li>
-                    <li> Prénom : </li>
-                    <li> Médium : </li>
+                    <li>Aucun client en attente. Vous recevrez une notification lorsqu'un client vous sera affecté.</li>
                     
                 </ul> 
 
+             <br> <button id="bouton-Plus" class="joli-bouton">Plus</button> 
         </div>
             
-        <br> <button id="bouton-Plus" class="joli-bouton">Plus</button> 
-        
+
         <script>
             function AfficherTopMediums() {
                 $.ajax({
@@ -62,8 +72,6 @@ and open the template in the editor.
                     
                     // Popup avec message d'erreur :
                     alert('une erreur est survenue');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "index.html";
                 });
             }
@@ -79,17 +87,20 @@ and open the template in the editor.
                   
                 }).done(function(response){ 
                 // console.log(data); // Afficher dans la console JavaScript
-                $('#prochain-client').empty();
-                
+
                 var prochainClient=$('#prochain-client');
-                 prochainClient.append("<li> Civilité : "+response.civilite+ "</li> <li> Nom :  "+response.nom+ "</li> <li> Prénom :   " +response.prenom+" </li> <li> Médium : "+response.medium+ "</li>");
+                if(response.civilite!="vide"){
+                    $('#prochain-client').empty();
+                    prochainClient.append("<li> Civilité : "+response.civilite+ "</li> <li> Nom :  "+response.nom+ "</li> <li> Prénom :   " +response.prenom+" </li> <li> Médium : "+response.medium+ "</li>");
+                 }else{
+                     var button=document.getElementById('bouton-Plus');
+                     button.disabled="disabled";
+                 }
   
                 }).fail( function (error) { // Appel KO => erreur a gérer
                     
                     // Popup avec message d'erreur :
                     alert('une erreur est survenue');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "index.html";
                 });
             }
@@ -97,11 +108,8 @@ and open the template in the editor.
             $(document).ready(function(){
                 console.log('Page chargee => Debut du Script'); 
                 
-                 
                  AfficherProchainClient();
                  AfficherTopMediums();
-                 
-                 
                  
                 $('#bouton-Tableau-bord').on('click', function () {
 
@@ -118,6 +126,15 @@ and open the template in the editor.
                     console.log('Click sur le bouton "Tableau de Bord"');
 
                     window.location = "Debut_voyance.html";
+
+                });
+                
+                   $('#bouton-deconnexion').on('click', function () {
+
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Déconnexion"');
+
+                    window.location = "index.html";
 
                 });
                

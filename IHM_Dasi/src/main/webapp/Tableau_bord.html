@@ -10,47 +10,66 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <!-- Librairie Javascript: jQuery (v3.3.1) -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        
+        <style>
+             #bouton-deconnexion{float:right;margin-right: 20px;}
+             #bouton-Entreprise{float:left;margin-left: 30%;}
+             #bouton-Personnel{float:right;margin-right: 30%;}
+             #bouton-Retour{float:bottom;float:right;}
+             button.joli-bouton {font-size:24px;padding: 3px 10px; border-radius: 5px; border-width: 3px; cursor: pointer; }
+             #nbAppel{float:left;width:50%; height:60%;text-align: center;margin-top: 4%;}
+             #top{float:right;width:50%; height:60%;right:50%;text-align: center;margin-top: 4%;}
+             #infos{text-align:center;}
+             u{font-size:24px;}
+             li{font-size: 22px;text-align: left;margin-left: 20%;margin-right:20%;}
+        </style>
+        
     </head>
     <body>
         
-        <div>
-            <b>ENTREPRISE </b>
-			<br />
-			<br />
-			
-            <div><u>Top 3 des employés : </u>
+        <header>
+            <button id="bouton-deconnexion" class="joli-bouton">Déconnexion</button><br><br>
+            <hr>
+        </header>
+        
+        <button id="bouton-Entreprise" class="joli-bouton">Entreprise</button> 
+        <button id="bouton-Personnel" class="joli-bouton">Personnel</button>
+        <br>
+        <br>
+        
+        <div id="infos">
+        <h1>Statistiques :</h1>
+
+        <div id="top">
+            <u>Top 3 des employés : </u>
                 <ul id="top-employes">   
                     <li> 1. </li>
                     <li> 2. </li>
                     <li> 3.</li>
                 </ul> 
+        </div> 
+      
+        
+        <div id="nbAppel">
+            
+            <div id="personnel" ><u>Nombre d'appels par médium : </u>
+		<ul id="appel-medium-personnel">   
+
+		</ul> 
             </div>
-            <div><u>Nombre d'appels par médium : </u>
+            
+             <div id="entreprise"><u>Nombre d'appels par médium : </u>
                 <ul id="appel-medium-entreprise">   
 
                 </ul> 
             </div>
-            
+
         </div>
-      
         
-        <div>
-            <br />
-            <b>PERSONNEL :  </b>
-            <br />
-            <br />
-            
-            <div><u>Nombre d'appels par médium : </u>
-				<ul id="appel-medium-personnel">   
-
-				</ul> 
-            </div>
-
-        </div>
-            
-        <br> <button id="bouton-Retour" class="joli-bouton">Retour</button> 
-        <br> <button id="bouton-Entreprise" class="joli-bouton">Entreprise</button> 
-        <br> <button id="bouton-Personnel" class="joli-bouton">Personnel</button> 
+       </div>
+        
+       <button id="bouton-Retour" class="joli-bouton">Retour</button> 
+      
         
         <script>
             function AfficherTopEmployes() {
@@ -73,8 +92,6 @@ and open the template in the editor.
                     
                     // Popup avec message d'erreur :
                     alert('une erreur est survenue');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "menuEmploye.html";
                 });
             }
@@ -90,6 +107,16 @@ and open the template in the editor.
                   
                 }).done(function(response){ 
                 // console.log(data); // Afficher dans la console JavaScript
+                                  
+                 var div=document.getElementById('personnel');
+                 div.style="display:none;";
+                 var div=document.getElementById('entreprise');
+                 div.style="";
+                 var button=document.getElementById('bouton-Entreprise');
+                 button.disabled="disabled";
+                 var button1=document.getElementById('bouton-Personnel');
+                 button1.disabled=false;
+                    
                 $('#appel-medium-entreprise').empty();
                 
                 var listeEntr=response.listeAppelEntr;
@@ -106,8 +133,6 @@ and open the template in the editor.
                     
                     // Popup avec message d'erreur :
                     alert('une erreur est survenue (entreprise)');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "menuEmploye.html";
                 });
             }
@@ -124,6 +149,16 @@ and open the template in the editor.
                   
                 }).done(function(response){ 
                 // console.log(data); // Afficher dans la console JavaScript
+                                    
+                 var div=document.getElementById('entreprise');
+                 div.style="display:none;";
+                 var div=document.getElementById('personnel');
+                 div.style="";
+                 var button=document.getElementById('bouton-Personnel');
+                 button.disabled="disabled";
+                 var button1=document.getElementById('bouton-Entreprise');
+                  button1.disabled=false;
+                 
                 $('#appel-medium-personnel').empty();
                 
                 var listeAppel=response.listeAppel;
@@ -140,39 +175,37 @@ and open the template in the editor.
                     
                     // Popup avec message d'erreur :
                     alert('une erreur est survenue');
-                    // Message d'erreur dans la div #message :
-                    $('#message').html('Erreur lors de l\'appel: HTTP Code ' + error.status + ' ~ ' + error.statusText + ' ~ ' + error.getResponseHeader('Content-Type'));
                     window.location = "menuEmploye.html";
                 });
             }
             
             
             $(document).ready(function(){
-                console.log('Page chargee => Debut du Script');           
+                console.log('Page chargee => Debut du Script');      
                 AfficherAppelPersonnel();
             
                 $('#bouton-Retour').on('click', function () {
-
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Retour"');
-
                     window.location = "menuEmploye.html";
-
                 });
                 
                  $('#bouton-Entreprise').on('click', function () {
-
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Retour"');
                     AfficherAppelEntreprise();
-
                 });
                 
                  $('#bouton-Personnel').on('click', function () {
-
                     // affichage pour debugage dans la console javascript du navigateur
                     console.log('Click sur le bouton "Retour"');
                     AfficherAppelPersonnel();
+                });
+                
+                 $('#bouton-deconnexion').on('click', function () {
+                    // affichage pour debugage dans la console javascript du navigateur
+                    console.log('Click sur le bouton "Déconnexion"');
+                    window.location = "index.html";
 
                 });
                 

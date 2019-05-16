@@ -30,7 +30,7 @@ public class AfficherPredictionsAction extends Action {
            
            Service service= new Service();
            Client c=service.getClientEnAttente(emp);
-           
+           System.out.println(c);
            if(c!=null){
                 List<String> predictions=null;
                 switch(type){

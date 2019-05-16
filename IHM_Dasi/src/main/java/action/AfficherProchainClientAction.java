@@ -29,19 +29,14 @@ public class AfficherProchainClientAction extends Action{
            Service service= new Service();
            Client c = service.getClientEnAttente(emp);
            
-           
-           
            if(c!=null){
                Voyance v=service.getVoyanceEnAttente(c,emp);
                 request.setAttribute("civilite", c.getCivilite());
                 request.setAttribute("nom", c.getNom());
                 request.setAttribute("prenom", c.getPrenom());
                 request.setAttribute("medium", v.getMedium().getNom());
-           } else {
-               request.setAttribute("civilite", "pas de client pour le moment");
-               request.setAttribute("nom", "pas de client pour le moment");
-               request.setAttribute("prenom", "pas de client pour le moment");
-               request.setAttribute("medium", "pas de client pour le moment");
+           } else{
+               request.setAttribute("civilite", "vide");
            }
            
            }catch (Exception e){
