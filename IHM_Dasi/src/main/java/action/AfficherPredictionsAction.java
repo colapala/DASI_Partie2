@@ -7,6 +7,7 @@ package action;
 
 import fr.insalyon.dasi.td.jpa.modele.Client;
 import fr.insalyon.dasi.td.jpa.modele.Employe;
+import fr.insalyon.dasi.td.jpa.modele.Voyance;
 import fr.insalyon.dasi.td.jpa.service.Service;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +29,14 @@ public class AfficherPredictionsAction extends Action {
            String type=(String)request.getParameter("type");
            System.out.println(type);
            
+           Client c=null;
+           for (Voyance v : emp.getListeVoyances()) {
+               if (v.getStatus() == 1) {
+                 c=v.getClient();
+               }
+            }
+           
            Service service= new Service();
-           Client c=service.getClientEnAttente(emp);
            System.out.println(c);
            if(c!=null){
                 List<String> predictions=null;

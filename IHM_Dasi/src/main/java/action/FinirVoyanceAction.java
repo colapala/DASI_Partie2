@@ -28,10 +28,18 @@ public class FinirVoyanceAction extends Action {
            String commentaire=request.getParameter("commentaire");
            
            Service service=new Service();
-           Client c=service.getClientEnAttente(emp);
-           Voyance v=service.getVoyanceEnAttente(c,emp);
-           v.setDescription(commentaire);
-           service.finirVoyance(v);
+           
+           Client c=null;
+           Voyance voyance=null;
+           for (Voyance v : emp.getListeVoyances()) {
+               if (v.getStatus() == 1) {
+                 c=v.getClient();
+                 voyance=v;
+               }
+            }
+           
+           voyance.setDescription(commentaire);
+           service.finirVoyance(voyance);
            
            request.setAttribute("resultat","reussie");
            
